@@ -1,0 +1,276 @@
+{% comment %}
+  Renders product buy-buttons.
+  Accepts:
+  - product: {Object} product object.
+  - block: {Object} passing the block information.
+  - product_form_id: {String} product form id.
+  - section_id: {String} id of section to which this snippet belongs.
+  - show_pickup_availability: {Boolean} for the pickup availability. If true the pickup availability is rendered, false - not rendered (optional).
+
+  Usage:
+  {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true %}
+{% endcomment %}
+<div {{ block.shopify_attributes }}>
+  {%- if product != blank -%}
+    {%- liquid
+      assign gift_card_recipient_feature_active = false
+      if block.settings.show_gift_card_recipient and product.gift_card?
+        assign gift_card_recipient_feature_active = true
+      endif
+
+      assign is_workshop = false
+      if product.tags contains 'workshop'
+        assign is_workshop = true
+      endif
+
+      assign show_dynamic_checkout = false
+      if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
+        assign show_dynamic_checkout = true
+      endif
+    -%}
+
+    <product-form
+      class="product-form"
+      data-hide-errors="{{ gift_card_recipient_feature_active }}"
+      data-section-id="{{ section.id }}"
+      {% if is_workshop %}
+        data-workshop-booking="true"
+      {% endif %}
+    >
+      <div class="product-form__error-message-wrapper" role="alert" hidden>
+        <span class="svg-wrapper">
+          {{- 'icon-error.svg' | inline_asset_content -}}
+        </span>
+        <span class="product-form__error-message"></span>
+      </div>
+
+      {%- form 'product',
+        product,
+        id: product_form_id,
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          {% if product.selected_or_first_available_variant.available == false
+            or quantity_rule_soldout
+            or product.selected_or_first_available_variant == null
+          %}
+            disabled
+          {% endif %}
+          class="product-variant-id"
+        >
+
+        {%- if gift_card_recipient_feature_active -%}
+          {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+        {%- endif -%}
+
+        {%- if is_workshop -%}
+          <div class="bt-booking" data-workshop-booking>
+            <div class="bt-booking__header">
+              <div class="bt-booking__title">Workshop buchen</div>
+              <div class="bt-booking__subtitle">Wähle Termin, Uhrzeit und Personenanzahl.</div>
+            </div>
+
+            <div class="bt-booking__grid">
+              <div class="bt-booking__field">
+                <label class="bt-booking__label" for="BtWorkshopDate-{{ section_id }}">Datum</label>
+                <div class="bt-booking__control">
+                  <span class="bt-booking__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 3v3"></path>
+                      <path d="M17 3v3"></path>
+                      <path d="M4 8h16"></path>
+                      <path d="M6 5h12a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"></path>
+                    </svg>
+                  </span>
+                  <input
+                    id="BtWorkshopDate-{{ section_id }}"
+                    class="bt-booking__input"
+                    type="date"
+                    name="properties[Workshop-Datum]"
+                    required
+                    data-booking-required
+                    data-booking-field="date"
+                  >
+                </div>
+                <div class="bt-booking__error" data-booking-error-for="date" hidden>Bitte Datum auswählen.</div>
+              </div>
+
+              <div class="bt-booking__field">
+                <label class="bt-booking__label" for="BtWorkshopTime-{{ section_id }}">Uhrzeit</label>
+                <div class="bt-booking__control">
+                  <span class="bt-booking__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"></path>
+                      <path d="M12 7v5l3 2"></path>
+                    </svg>
+                  </span>
+                  <select
+                    id="BtWorkshopTime-{{ section_id }}"
+                    class="bt-booking__input"
+                    name="properties[Uhrzeit]"
+                    required
+                    data-booking-required
+                    data-booking-field="time"
+                  >
+                    <option value="" selected disabled>Bitte wählen</option>
+                    <option value="09:00">09:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="18:00">18:00</option>
+                  </select>
+                </div>
+                <div class="bt-booking__error" data-booking-error-for="time" hidden>Bitte Uhrzeit auswählen.</div>
+              </div>
+
+              <div class="bt-booking__field">
+                <label class="bt-booking__label" for="BtWorkshopPersons-{{ section_id }}">Personen</label>
+                <div class="bt-booking__control">
+                  <span class="bt-booking__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                      <path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+                      <path d="M22 21v-2a3.5 3.5 0 0 0-3-3.4"></path>
+                      <path d="M16 3.2a4 4 0 0 1 0 7.6"></path>
+                    </svg>
+                  </span>
+                  <div class="bt-booking__stepper" role="group" aria-label="Personenanzahl">
+                    <button class="bt-booking__step" type="button" data-booking-step="-1" aria-label="Weniger Personen">-</button>
+                    <input
+                      id="BtWorkshopPersons-{{ section_id }}"
+                      class="bt-booking__input bt-booking__persons"
+                      type="number"
+                      inputmode="numeric"
+                      name="properties[Personen]"
+                      value="1"
+                      min="1"
+                      step="1"
+                      required
+                      data-booking-required
+                      data-booking-field="persons"
+                    >
+                    <button class="bt-booking__step" type="button" data-booking-step="1" aria-label="Mehr Personen">+</button>
+                  </div>
+                </div>
+                <div class="bt-booking__error" data-booking-error-for="persons" hidden>Bitte Personenanzahl wählen.</div>
+              </div>
+
+              <div class="bt-booking__field bt-booking__field--note">
+                <label class="bt-booking__label" for="BtWorkshopNote-{{ section_id }}">Notiz / Wünsche (optional)</label>
+                <div class="bt-booking__control">
+                  <span class="bt-booking__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 4h16v16H4z"></path>
+                      <path d="M8 8h8"></path>
+                      <path d="M8 12h8"></path>
+                      <path d="M8 16h6"></path>
+                    </svg>
+                  </span>
+                  <textarea
+                    id="BtWorkshopNote-{{ section_id }}"
+                    class="bt-booking__input bt-booking__textarea"
+                    name="properties[Notiz]"
+                    rows="3"
+                    placeholder="z. B. Allergien, Alter der Kinder, Wünsche"
+                    data-booking-field="note"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="product-form__buttons">
+          {%- liquid
+            assign check_against_inventory = true
+            if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+              assign check_against_inventory = false
+            endif
+            if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+              assign quantity_rule_soldout = true
+            endif
+          -%}
+          <button
+            id="ProductSubmitButton-{{ section_id }}"
+            type="submit"
+            name="add"
+            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            {% if product.selected_or_first_available_variant.available == false
+              or quantity_rule_soldout
+              or product.selected_or_first_available_variant == null
+            %}
+              disabled
+            {% endif %}
+          >
+            <span>
+              {%- if product.selected_or_first_available_variant == null -%}
+                {{ 'products.product.unavailable' | t }}
+              {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- else -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- endif -%}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
+          {%- if show_dynamic_checkout -%}
+            {{ form | payment_button }}
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+    </product-form>
+  {%- else -%}
+    <div class="product-form">
+      <div class="product-form__buttons form">
+        <button
+          type="submit"
+          name="add"
+          class="product-form__submit button button--full-width button--primary"
+          disabled
+        >
+          {{ 'products.product.sold_out' | t }}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if show_pickup_availability -%}
+    {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
+
+    {%- assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities
+      | where: 'pick_up_enabled', true
+    -%}
+
+    <pickup-availability
+      class="product__pickup-availabilities quick-add-hidden"
+      {% if product.selected_or_first_available_variant.available and pick_up_availabilities.size > 0 %}
+        available
+      {% endif %}
+      data-root-url="{{ routes.root_url }}"
+      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+      data-has-only-default-variant="{{ product.has_only_default_variant }}"
+      data-product-page-color-scheme="gradient color-{{ section.settings.color_scheme }}"
+    >
+      <template>
+        <pickup-availability-preview class="pickup-availability-preview">
+          <span class="svg-wrapper">
+            {{- 'icon-unavailable.svg' | inline_asset_content -}}
+          </span>
+          <div class="pickup-availability-info">
+            <p class="caption-large">{{ 'products.product.pickup_availability.unavailable' | t }}</p>
+            <button class="pickup-availability-button link link--text underlined-link">
+              {{ 'products.product.pickup_availability.refresh' | t }}
+            </button>
+          </div>
+        </pickup-availability-preview>
+      </template>
+    </pickup-availability>
+
+    <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+</div>

@@ -1,0 +1,367 @@
+/* ============================================
+   Product Workshop Template - Premium Styles
+   Modern booking interface for workshops
+   ============================================ */
+
+/* Workshop Layout Base */
+.product-workshop {
+  --workshop-radius: 16px;
+  --workshop-input-height: 54px;
+  --workshop-gap: 1.2rem;
+  --workshop-icon-size: 18px;
+}
+
+.product-workshop__vendor {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(var(--color-foreground), 0.6);
+  margin-bottom: 0.8rem;
+}
+
+.product-workshop__title h1 {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.01em;
+}
+
+.product-workshop__price {
+  margin: 1.2rem 0 1.6rem;
+}
+
+.product-workshop__price .price--large {
+  font-size: 2.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.product-workshop__description {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: rgba(var(--color-foreground), 0.85);
+  margin-bottom: 2rem;
+}
+
+/* Workshop Booking Card */
+.bt-workshop-booking {
+  background: rgba(var(--color-background), 1);
+  border-radius: var(--workshop-radius);
+  padding: 1.8rem;
+  margin: 0 0 2rem 0;
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.bt-workshop-booking__header {
+  margin-bottom: 1.6rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.bt-workshop-booking__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.4rem 0;
+  color: rgb(var(--color-foreground));
+}
+
+.bt-workshop-booking__subtitle {
+  font-size: 1.3rem;
+  color: rgba(var(--color-foreground), 0.6);
+  margin: 0;
+}
+
+/* Booking Fields Grid */
+.bt-workshop-booking__fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.bt-workshop-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bt-workshop-field--full {
+  grid-column: 1 / -1;
+}
+
+/* Field Label with Icon */
+.bt-workshop-field__label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: rgba(var(--color-foreground), 0.9);
+}
+
+.bt-workshop-field__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--workshop-icon-size);
+  height: var(--workshop-icon-size);
+  color: rgba(var(--color-foreground), 0.5);
+  flex-shrink: 0;
+}
+
+.bt-workshop-field__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.bt-workshop-field__optional {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(var(--color-foreground), 0.5);
+  margin-left: 0.3rem;
+}
+
+/* Input Styling */
+.bt-workshop-field__input-wrap {
+  position: relative;
+}
+
+.bt-workshop-field__input {
+  width: 100%;
+  height: var(--workshop-input-height);
+  padding: 0 1.4rem;
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  border-radius: calc(var(--workshop-radius) - 4px);
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 450;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.bt-workshop-field__input:focus {
+  outline: none;
+  border-color: rgba(var(--color-foreground), 0.4);
+  box-shadow: 0 0 0 3px rgba(var(--color-foreground), 0.05);
+}
+
+.bt-workshop-field__input:focus-visible {
+  outline: 2px solid rgba(var(--color-foreground), 0.4);
+  outline-offset: 2px;
+}
+
+/* Date Input */
+.bt-workshop-field__input--date {
+  padding-right: 1rem;
+}
+
+.bt-workshop-field__input--date::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+/* Select Input */
+.bt-workshop-field__input--select {
+  cursor: pointer;
+  padding-right: 3rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 16px;
+}
+
+/* Stepper (Persons Input) */
+.bt-workshop-stepper {
+  display: flex;
+  align-items: stretch;
+  height: var(--workshop-input-height);
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  border-radius: calc(var(--workshop-radius) - 4px);
+  overflow: hidden;
+}
+
+.bt-workshop-stepper__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.2rem;
+  padding: 0;
+  border: none;
+  background: rgba(var(--color-foreground), 0.03);
+  color: rgba(var(--color-foreground), 0.7);
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.bt-workshop-stepper__btn:hover {
+  background: rgba(var(--color-foreground), 0.08);
+  color: rgb(var(--color-foreground));
+}
+
+.bt-workshop-stepper__btn:focus-visible {
+  outline: 2px solid rgba(var(--color-foreground), 0.4);
+  outline-offset: -2px;
+}
+
+.bt-workshop-stepper__btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.bt-workshop-stepper__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-family: inherit;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  -moz-appearance: textfield;
+}
+
+.bt-workshop-stepper__input::-webkit-outer-spin-button,
+.bt-workshop-stepper__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bt-workshop-stepper__input:focus {
+  outline: none;
+}
+
+/* Textarea */
+.bt-workshop-field__input--textarea {
+  height: auto;
+  min-height: 90px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Error Messages */
+.bt-workshop-field__error {
+  display: block;
+  font-size: 1.2rem;
+  color: rgb(200, 55, 55);
+  margin-top: 0.3rem;
+  min-height: 1.6rem;
+}
+
+.bt-workshop-field__error[hidden] {
+  display: none;
+}
+
+/* Form Actions */
+.product-workshop-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.product-workshop-form__submit {
+  min-height: 5.6rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: var(--workshop-radius);
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+
+.product-workshop-form__submit:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.product-workshop-form__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Dynamic Checkout (PayPal) */
+.product-workshop-form__dynamic-checkout {
+  margin-top: 0.5rem;
+}
+
+.product-workshop-form__dynamic-checkout .shopify-payment-button__button {
+  min-height: 5.2rem;
+  border-radius: var(--workshop-radius);
+  font-size: 1.5rem;
+}
+
+/* Error Banner */
+.product-workshop__error {
+  background: rgba(200, 55, 55, 0.08);
+  border: 1px solid rgba(200, 55, 55, 0.2);
+  border-radius: calc(var(--workshop-radius) - 4px);
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 749px) {
+  .product-workshop {
+    --workshop-radius: 14px;
+    --workshop-input-height: 52px;
+  }
+  
+  .bt-workshop-booking {
+    padding: 1.4rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  
+  .bt-workshop-booking__fields {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .bt-workshop-field--full {
+    grid-column: auto;
+  }
+  
+  .bt-workshop-field__input {
+    font-size: 1.6rem; /* Prevents zoom on iOS */
+  }
+  
+  .product-workshop__title h1 {
+    font-size: 2rem;
+  }
+  
+  .product-workshop__price .price--large {
+    font-size: 2rem;
+  }
+}
+
+/* Desktop Enhancements */
+@media screen and (min-width: 750px) {
+  .product-workshop__info-container {
+    max-width: 48rem;
+  }
+  
+  .bt-workshop-booking {
+    padding: 2rem;
+  }
+  
+  .bt-workshop-booking__fields {
+    gap: 1.4rem;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .product-workshop-form__submit {
+    transition: none;
+  }
+  
+  .product-workshop-form__submit:not(:disabled):hover {
+    transform: none;
+  }
+}

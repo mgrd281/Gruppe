@@ -1,0 +1,46 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "Newsletter",
+        "newsletter_subtitle": "-",
+        "newsletter_button_label": "Abonnieren",
+        "brand_tagline": "Handgemachte Ideen & Workshops",
+        "contact_name": "Bytinytales – Kreativraum & Workshops",
+        "contact_address": "Dortustr. 46\nZimmer 209\n14467 Potsdam",
+        "contact_email": "shop@bytinytales.de",
+        "contact_phone": "+49 170 7310173",
+        "contact_city": "",
+        "support_hours": "[BITTE EINTRAGEN]",
+        "show_phone": true,
+        "show_support_hours": false,
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 8,
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

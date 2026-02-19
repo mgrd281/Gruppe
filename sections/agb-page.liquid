@@ -1,0 +1,169 @@
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="page-width page-width--narrow section-{{ section.id }}-padding">
+  <h1 class="main-page-title page-title h0{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    {{ page.title | escape }}
+  </h1>
+
+  <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <h2>Allgemeine Geschäftsbedingungen (AGB)</h2>
+
+    <p>
+      bytinytales<br>
+      Inhaberin: Yulia Veksler<br>
+      Dortustr. 46<br>
+      Zimmer 209<br>
+      14467 Potsdam<br>
+      Deutschland<br>
+      E-Mail: <a href="mailto:bytinytales@web.de">bytinytales@web.de</a><br>
+      Telefon: <a href="tel:+491707310173">+49 170 7310173</a>
+    </p>
+
+    <h3>§1 Geltungsbereich</h3>
+    <p>
+      (1) Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge, die zwischen bytinytales, Inhaberin Yulia Veksler (nachfolgend „Anbieterin“) und den Kundinnen und Kunden (nachfolgend „Kunden“) über den Online-Shop sowie über die Teilnahme an Workshops, Veranstaltungen und kreativen Treffen abgeschlossen werden.
+    </p>
+    <p>
+      (2) Abweichende Bedingungen der Kunden werden nicht anerkannt, es sei denn, die Anbieterin stimmt ihrer Geltung ausdrücklich schriftlich zu.
+    </p>
+
+    <h3>§2 Vertragsgegenstand</h3>
+    <p>Die Anbieterin bietet folgende Leistungen an:</p>
+    <ol>
+      <li>Teilnahme an kreativen Workshops, Veranstaltungen und Gemeinschaftsformaten im Kreativraum in Potsdam</li>
+      <li>Reservierung von Teilnahmeplätzen über den Online-Shop</li>
+      <li>Verkauf handgefertigter Produkte (z. B. Schmuck, textile Arbeiten, Miniaturen und kreative Einzelstücke)</li>
+    </ol>
+    <p>
+      Die Buchung eines Workshop-Platzes stellt keinen Kauf eines körperlichen Gegenstands dar, sondern die Reservierung eines Teilnahmeanspruchs an einer konkreten Veranstaltung.
+    </p>
+
+    <h3>§3 Vertragsschluss</h3>
+    <p>
+      (1) Die Darstellung der Angebote im Online-Shop stellt kein rechtlich bindendes Angebot dar, sondern eine Aufforderung zur Abgabe einer Bestellung.
+    </p>
+    <p>(2) Durch Anklicken des Buttons zur verbindlichen Buchung gibt der Kunde ein verbindliches Angebot zum Vertragsabschluss ab.</p>
+    <p>(3) Der Vertrag kommt erst zustande, wenn die Anbieterin die Buchung oder Bestellung per E-Mail bestätigt.</p>
+    <p>(4) Die Anzahl der verfügbaren Workshop-Plätze ist begrenzt. Anmeldungen werden in der Reihenfolge des Eingangs berücksichtigt.</p>
+
+    <h3>§4 Leistungsumfang bei Workshops und Veranstaltungen</h3>
+    <p>
+      (1) Termine, Dauer, Inhalte, Teilnahmebedingungen, Preise sowie ggf. Materialkosten ergeben sich aus der jeweiligen Veranstaltungsbeschreibung.
+    </p>
+    <p>
+      (2) Die Anbieterin behält sich vor, Inhalte aus organisatorischen Gründen geringfügig anzupassen, sofern der Gesamtcharakter der Veranstaltung gewahrt bleibt.
+    </p>
+    <p>
+      (3) Die Teilnahme erfolgt eigenverantwortlich. Die Anbieterin übernimmt keine pädagogische oder therapeutische Betreuung, sofern dies nicht ausdrücklich angegeben ist.
+    </p>
+
+    <h3>§5 Preise und Zahlung</h3>
+    <p>(1) Alle angegebenen Preise sind Endpreise gemäß §19 UStG (Kleinunternehmerregelung), sofern nicht anders ausgewiesen.</p>
+    <p>(2) Die Zahlung erfolgt über die im Online-Shop angebotenen Zahlungsmethoden.</p>
+    <p>(3) Der Teilnahmeplatz wird erst nach vollständigem Zahlungseingang verbindlich reserviert.</p>
+
+    <h3>§6 Widerrufsrecht bei Veranstaltungen</h3>
+    <p>
+      (1) Gemäß §312g Abs. 2 Nr. 9 BGB besteht kein Widerrufsrecht bei Verträgen zur Erbringung von Dienstleistungen im Zusammenhang mit Freizeitbetätigungen, wenn der Vertrag einen spezifischen Termin vorsieht.
+    </p>
+    <p>(2) Eine kostenfreie Stornierung ist daher grundsätzlich ausgeschlossen, sofern nicht ausdrücklich anders angegeben.</p>
+    <p>(3) Der Kunde kann jedoch eine Ersatzperson benennen, die an seiner Stelle teilnimmt.</p>
+
+    <h3>§7 Absage oder Änderung von Veranstaltungen</h3>
+    <p>(1) Die Anbieterin kann Veranstaltungen aus wichtigem Grund absagen (z. B. Krankheit, zu geringe Teilnehmerzahl, höhere Gewalt).</p>
+    <p>(2) In diesem Fall wird die Teilnahmegebühr vollständig erstattet. Weitergehende Ansprüche bestehen nicht.</p>
+    <p>(3) Terminverschiebungen können angeboten werden. Der Kunde kann in diesem Fall zwischen Teilnahme am Ersatztermin oder Rückerstattung wählen.</p>
+
+    <h3>§8 Verkauf handgefertigter Produkte</h3>
+    <p>
+      (1) Bei den angebotenen Waren handelt es sich überwiegend um Einzelstücke oder Kleinserien in Handarbeit. Geringfügige Abweichungen in Form, Farbe oder Struktur stellen keinen Mangel dar.
+    </p>
+    <p>(2) Es gelten die gesetzlichen Gewährleistungsrechte.</p>
+
+    <h3>§9 Versand und Lieferung</h3>
+    <p>(1) Die Lieferung erfolgt an die vom Kunden angegebene Adresse.</p>
+    <p>(2) Versandkosten werden im Bestellprozess gesondert ausgewiesen.</p>
+    <p>(3) Lieferzeiten sind unverbindlich, sofern nicht ausdrücklich als verbindlich vereinbart.</p>
+
+    <h3>§10 Eigentumsvorbehalt</h3>
+    <p>Die Ware bleibt bis zur vollständigen Bezahlung Eigentum der Anbieterin.</p>
+
+    <h3>§11 Haftung</h3>
+    <p>(1) Die Teilnahme an Workshops erfolgt auf eigene Gefahr.</p>
+    <p>
+      (2) Für einfache Fahrlässigkeit haftet die Anbieterin nur bei Verletzung wesentlicher Vertragspflichten und beschränkt auf den vorhersehbaren Schaden.
+    </p>
+    <p>
+      (3) Für Schäden an Kleidung oder persönlichen Gegenständen während kreativer Tätigkeiten wird keine Haftung übernommen, außer bei Vorsatz oder grober Fahrlässigkeit.
+    </p>
+
+    <h3>§12 Projektstatus</h3>
+    <p>
+      Das Projekt bytinytales wird im Rahmen eines Abschlussprojekts entwickelt. Ein regulärer Geschäftsbetrieb kann zum Zeitpunkt der Veröffentlichung noch nicht aufgenommen sein.
+      Verbindliche Leistungen werden erst nach offizieller Aufnahme der Geschäftstätigkeit erbracht.
+    </p>
+
+    <h3>§13 Datenschutz</h3>
+    <p>Die Verarbeitung personenbezogener Daten erfolgt gemäß der gesonderten Datenschutzerklärung.</p>
+
+    <h3>§14 Schlussbestimmungen</h3>
+    <p>(1) Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.</p>
+    <p>
+      (2) Sollten einzelne Bestimmungen dieser AGB unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.
+    </p>
+    <p>(3) Gerichtsstand ist – soweit gesetzlich zulässig – Potsdam.</p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "AGB page",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "AGB page"
+    }
+  ]
+}
+{% endschema %}
