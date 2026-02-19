@@ -421,14 +421,6 @@
   min-width: 0;
 }
 
-@media screen and (min-width: 990px) {
-  .image-with-text--brand-story .image-with-text__media-item {
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-}
-
 .image-with-text--brand-story .image-with-text__text-item {
   min-width: 0;
   display: flex;
@@ -530,12 +522,7 @@
 
 @media screen and (min-width: 990px) {
   .image-with-text--brand-story .image-with-text__media-shell {
-    height: 100%;
     max-height: 72vh;
-  }
-
-  .image-with-text--brand-story .image-with-text__media-shell::before {
-    display: none;
   }
 }
 
