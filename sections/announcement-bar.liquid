@@ -1,4 +1,4 @@
-{%- if section.settings.enable_utility_bar -%}
+{%- if section.settings.enable_utility_bar != false -%}
 {%- liquid
   assign phone_number = section.settings.phone_number
   assign phone_link = phone_number | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '/'
