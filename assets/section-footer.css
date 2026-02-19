@@ -269,9 +269,12 @@
   overflow: visible;
   font-size: var(--bt-footer-size);
   line-height: var(--bt-footer-line-height);
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: none;
 }
 
-/* Phone and Email: single line, ensure full visibility */
+/* Phone and Email ONLY: single line, ensure full visibility */
 .bt-footer__contact-item:first-child .bt-footer__contact-text,
 .bt-footer__contact-item:nth-child(2) .bt-footer__contact-text {
   white-space: nowrap;
@@ -468,7 +471,7 @@
   }
 
   .bt-footer__grid {
-    grid-template-columns: 1fr 1.1fr 1fr 1.3fr 1fr;
+    grid-template-columns: 1.2fr 1fr 1fr 1.2fr 1fr;
     gap: 1.5rem;
     align-items: start;
   }
