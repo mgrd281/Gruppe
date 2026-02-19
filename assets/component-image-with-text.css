@@ -486,17 +486,76 @@
   margin-top: 1.6rem;
   max-width: 42ch;
   line-height: 1.7;
+  position: relative;
 }
 
-/* Smart text column: limit height and fade overflow for editorial feel */
+/* Editorial expand/collapse behavior */
+.image-with-text__text-wrapper {
+  position: relative;
+  overflow: hidden;
+  max-height: 12rem;
+  transition: max-height 250ms ease;
+}
+
+.image-with-text__text-wrapper.is-expanded {
+  max-height: 200rem;
+}
+
+.image-with-text__text-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4rem;
+  background: linear-gradient(to bottom, rgba(var(--color-background), 0), rgba(var(--color-background), 1));
+  pointer-events: none;
+  transition: opacity 250ms ease;
+}
+
+.image-with-text__text-wrapper.is-expanded::after {
+  opacity: 0;
+}
+
+.image-with-text__expand-toggle {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 1.2rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: rgb(var(--color-link));
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: opacity 200ms ease;
+}
+
+.image-with-text__expand-toggle:hover {
+  opacity: 0.7;
+}
+
+.image-with-text__expand-toggle:focus-visible {
+  outline: 2px solid rgb(var(--color-link));
+  outline-offset: 2px;
+}
+
+/* Hide toggle when expanded text fits without truncation */
+.image-with-text__text-wrapper.is-fully-visible + .image-with-text__expand-toggle {
+  display: none;
+}
+
+/* Legacy fade for backwards compatibility (desktop only) */
 @media screen and (min-width: 990px) {
-  .image-with-text--brand-story .image-with-text__body {
+  .image-with-text--brand-story .image-with-text__body:not(.has-expand-toggle) {
     max-height: 18vh;
     overflow: hidden;
     position: relative;
   }
 
-  .image-with-text--brand-story .image-with-text__body::after {
+  .image-with-text--brand-story .image-with-text__body:not(.has-expand-toggle)::after {
     content: '';
     position: absolute;
     bottom: 0;

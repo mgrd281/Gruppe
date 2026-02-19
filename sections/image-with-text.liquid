@@ -175,8 +175,14 @@
                     {{ block.settings.heading }}
                   </h2>
                 {%- when 'text' -%}
-                  <div class="image-with-text__body rte" {{ block.shopify_attributes }}>
-                    {{ block.settings.text }}
+                  <div class="image-with-text__body rte has-expand-toggle" {{ block.shopify_attributes }}>
+                    <div class="image-with-text__text-wrapper" data-expandable-text>
+                      {{ block.settings.text }}
+                    </div>
+                    <button type="button" class="image-with-text__expand-toggle" data-expand-toggle aria-expanded="false">
+                      <span data-expand-label>Mehr lesen</span>
+                      <span data-collapse-label style="display: none;">Weniger anzeigen</span>
+                    </button>
                   </div>
                 {%- when 'button' -%}
                   {%- if block.settings.button_label != blank -%}
@@ -200,6 +206,53 @@
     </div>
   </div>
 </div>
+
+<script>
+  (function() {
+    const section = document.querySelector('.section-{{ section.id }}-padding');
+    if (!section) return;
+
+    const wrapper = section.querySelector('[data-expandable-text]');
+    const toggle = section.querySelector('[data-expand-toggle]');
+    const expandLabel = toggle?.querySelector('[data-expand-label]');
+    const collapseLabel = toggle?.querySelector('[data-collapse-label]');
+
+    if (!wrapper || !toggle) return;
+
+    // Check if text fits without truncation
+    function checkFullyVisible() {
+      const scrollHeight = wrapper.scrollHeight;
+      const clientHeight = wrapper.clientHeight;
+      if (scrollHeight <= clientHeight + 2) {
+        wrapper.classList.add('is-fully-visible');
+      } else {
+        wrapper.classList.remove('is-fully-visible');
+      }
+    }
+
+    // Initial check
+    checkFullyVisible();
+
+    // Recheck on resize
+    window.addEventListener('resize', checkFullyVisible);
+
+    toggle.addEventListener('click', function() {
+      const isExpanded = wrapper.classList.contains('is-expanded');
+
+      if (isExpanded) {
+        wrapper.classList.remove('is-expanded');
+        toggle.setAttribute('aria-expanded', 'false');
+        if (expandLabel) expandLabel.style.display = 'inline';
+        if (collapseLabel) collapseLabel.style.display = 'none';
+      } else {
+        wrapper.classList.add('is-expanded');
+        toggle.setAttribute('aria-expanded', 'true');
+        if (expandLabel) expandLabel.style.display = 'none';
+        if (collapseLabel) collapseLabel.style.display = 'inline';
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
