@@ -424,7 +424,14 @@
 .image-with-text--brand-story .image-with-text__text-item {
   min-width: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 1.6rem;
+}
+
+@media screen and (max-width: 749px) {
+  .image-with-text--brand-story .image-with-text__text-item {
+    padding-top: 1.2rem;
+  }
 }
 
 .image-with-text--brand-story .image-with-text__content {
@@ -502,7 +509,7 @@
 }
 
 .image-with-text--brand-story .image-with-text__content > .button {
-  margin-top: 2.4rem;
+  margin-top: 3.2rem;
   flex-shrink: 0;
 }
 
