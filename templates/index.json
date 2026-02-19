@@ -1,1 +1,194 @@
-{"sections":{"image_banner_HerKDz":{"type":"image-banner","blocks":{"heading_c4HYfD":{"type":"heading","settings":{"heading":"Do It Yourself  deine                                      Digitale Detoks","heading_size":"h0"}},"text_UJCkXd":{"type":"text","settings":{"text":"Workshops · Begegnung · Handgemachtes","text_style":"body"}},"buttons_hCNnYV":{"type":"buttons","settings":{"button_label_1":"Raum entdecken","button_link_1":"","button_style_secondary_1":false,"button_label_2":"","button_link_2":"","button_style_secondary_2":false}}},"block_order":["heading_c4HYfD","text_UJCkXd","buttons_hCNnYV"],"name":"t:sections.image-banner.presets.name","settings":{"image":"shopify:\/\/shop_images\/Plan_fuer_Website.png","image_overlay_opacity":40,"image_height":"medium","image_behavior":"none","desktop_content_position":"middle-left","desktop_content_alignment":"left","show_text_box":false,"color_scheme":"scheme-4","stack_images_on_mobile":true,"mobile_content_alignment":"center","show_text_below":false}},"rich_text_HXe3UB":{"type":"rich-text","blocks":{"heading_eNYmFn":{"type":"heading","settings":{"heading":"Handgemacht. Echt. Nah.","heading_size":"h1"}},"text_GgjhKW":{"type":"text","settings":{"text":"<p>by tinytales ist ein kreativer Raum in Potsdam.\u2028\u2028Für Workshops, Handgemachtes und echte Begegnungen —\u2028\u2028fern vom digitalen Lärm.<br\/><\/p>"}},"button_WCLyeE":{"type":"button","settings":{"button_label":"","button_link":"","button_style_secondary":false,"button_label_2":"","button_link_2":"","button_style_secondary_2":false}}},"block_order":["heading_eNYmFn","text_GgjhKW","button_WCLyeE"],"name":"t:sections.rich-text.presets.name","settings":{"desktop_content_position":"center","content_alignment":"center","color_scheme":"","full_width":true,"padding_top":40,"padding_bottom":52}},"featured-collection":{"type":"featured-collection","settings":{"collection":"all","products_to_show":4,"title":"","heading_size":"h2","description":"","show_description":false,"description_style":"body","columns_desktop":4,"enable_desktop_slider":false,"full_width":false,"show_view_all":false,"view_all_style":"solid","color_scheme":"scheme-1","image_ratio":"square","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":false,"padding_top":0,"padding_bottom":68}},"image_with_text_naJzwL":{"type":"image-with-text","blocks":{"heading_Ar3mDN":{"type":"heading","settings":{"heading":"WIR","heading_size":"h1"}},"text_dGBt3r":{"type":"text","settings":{"text":"<p>Ich komme aus einer Zeit,<br\/>in der Fantasie nicht digital war.Wir bauten Welten aus Stoffresten.<br\/>Sahen Tiere in Wolken.<br\/>Lasen Bücher, bis das Licht verschwand.deen kamen aus Schatten,<br\/>aus Sonne auf dem Boden,<br\/>aus Stille.Heute ist alles schneller.<br\/>Die Welt passt in eine Handfläche –<br\/>und gleichzeitig scheint immer weniger Raum zu bleiben.Ich merkte, wie leicht ein Tag vergeht, wenn der Blick im Bildschirm hängt<br\/>und der Kopf voller Aufgaben ist.Irgendwann schloss ich die Tür. Nicht aus Rückzug.<br\/>Sondern aus Entscheidung.Ich wollte wieder hören,nwie Stoff raschelt.<br\/>Wie Fäden durch Finger gleiten.<br\/>Wie Gedanken entstehen, wenn es still ist.So entstand by_tiny_tales.Ein Raum für alle,<br\/>die anhalten möchten – aber nicht wissen wie. Für Eltern und Kinder, die gemeinsame Zeit nicht dokumentieren, sondern erleben wollen.Für Menschen, die sich nach Händen sehnen, die wieder etwas erschaffen.Für jene, die schon kreativ sind –<br\/>und für jene, die sich erinnern wollen.<\/p><p>by_tiny_tales ist kein Trend.<br\/>Es ist ein leiser Raum. Ein Ort,<br\/>an dem Zeit wieder Gewicht bekommt.<\/p>","text_style":"body"}},"button_bFQLbM":{"type":"button","settings":{"button_label":"Schaltflächenbeschriftung","button_link":"","button_style_secondary":false}}},"block_order":["heading_Ar3mDN","text_dGBt3r","button_bFQLbM"],"name":"t:sections.image-with-text.presets.name","settings":{"image":"shopify:\/\/shop_images\/ed4a9e93-4003-45db-b34f-43573a3bcb38.jpg","height":"adapt","desktop_image_width":"medium","layout":"image_first","image_behavior":"none","content_layout":"no-overlap","desktop_content_position":"top","desktop_content_alignment":"left","mobile_content_alignment":"left","section_color_scheme":"","color_scheme":"","padding_top":36,"padding_bottom":36}}},"order":["image_banner_HerKDz","rich_text_HXe3UB","featured-collection","image_with_text_naJzwL"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_HerKDz": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_c4HYfD": {
+          "type": "heading",
+          "settings": {
+            "heading": "Do It Yourself  deine                                      Digitale Detoks",
+            "heading_size": "h0"
+          }
+        },
+        "text_UJCkXd": {
+          "type": "text",
+          "settings": {
+            "text": "Workshops · Begegnung · Handgemachtes",
+            "text_style": "body"
+          }
+        },
+        "buttons_hCNnYV": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Raum entdecken",
+            "button_link_1": "",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_c4HYfD",
+        "text_UJCkXd",
+        "buttons_hCNnYV"
+      ],
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/Plan_fuer_Website.png",
+        "image_overlay_opacity": 40,
+        "image_height": "medium",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-left",
+        "desktop_content_alignment": "left",
+        "show_text_box": false,
+        "color_scheme": "scheme-4",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "rich_text_HXe3UB": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_eNYmFn": {
+          "type": "heading",
+          "settings": {
+            "heading": "Handgemacht. Echt. Nah.",
+            "heading_size": "h1"
+          }
+        },
+        "text_GgjhKW": {
+          "type": "text",
+          "settings": {
+            "text": "<p>by tinytales ist ein kreativer Raum in Potsdam.  Für Workshops, Handgemachtes und echte Begegnungen —  fern vom digitalen Lärm.<br/></p>"
+          }
+        },
+        "button_WCLyeE": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_eNYmFn",
+        "text_GgjhKW",
+        "button_WCLyeE"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "all",
+        "products_to_show": 4,
+        "title": "",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 0,
+        "padding_bottom": 68
+      }
+    },
+    "image_with_text_naJzwL": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_Ar3mDN": {
+          "type": "heading",
+          "settings": {
+            "heading": "WIR",
+            "heading_size": "h1"
+          }
+        },
+        "text_dGBt3r": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Ich komme aus einer Zeit,<br/>in der Fantasie nicht digital war.Wir bauten Welten aus Stoffresten.<br/>Sahen Tiere in Wolken.<br/>Lasen Bücher, bis das Licht verschwand.deen kamen aus Schatten,<br/>aus Sonne auf dem Boden,<br/>aus Stille.Heute ist alles schneller.<br/>Die Welt passt in eine Handfläche –<br/>und gleichzeitig scheint immer weniger Raum zu bleiben.Ich merkte, wie leicht ein Tag vergeht, wenn der Blick im Bildschirm hängt<br/>und der Kopf voller Aufgaben ist.Irgendwann schloss ich die Tür. Nicht aus Rückzug.<br/>Sondern aus Entscheidung.Ich wollte wieder hören,nwie Stoff raschelt.<br/>Wie Fäden durch Finger gleiten.<br/>Wie Gedanken entstehen, wenn es still ist.So entstand by_tiny_tales.Ein Raum für alle,<br/>die anhalten möchten – aber nicht wissen wie. Für Eltern und Kinder, die gemeinsame Zeit nicht dokumentieren, sondern erleben wollen.Für Menschen, die sich nach Händen sehnen, die wieder etwas erschaffen.Für jene, die schon kreativ sind –<br/>und für jene, die sich erinnern wollen.</p><p>by_tiny_tales ist kein Trend.<br/>Es ist ein leiser Raum. Ein Ort,<br/>an dem Zeit wieder Gewicht bekommt.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_bFQLbM": {
+          "type": "button",
+          "settings": {
+            "button_label": "Schaltflächenbeschriftung",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_Ar3mDN",
+        "text_dGBt3r",
+        "button_bFQLbM"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "media_type": "upload_video",
+        "video": "shopify://files/videos/video-output-B93B2CCA-B6BC-456B-943E-BF16127BF9CE-1.MOV",
+        "external_video_url": "",
+        "enable_video_looping": false,
+        "enable_muted_preview": false,
+        "media_aspect_ratio": "adapt",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "background_style": "transparent",
+        "enable_overlay_gradient": false,
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "image_banner_HerKDz",
+    "rich_text_HXe3UB",
+    "featured-collection",
+    "image_with_text_naJzwL"
+  ]
+}
