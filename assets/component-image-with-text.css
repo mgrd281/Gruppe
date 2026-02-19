@@ -415,12 +415,21 @@
   min-width: 0;
   display: flex;
   align-items: flex-start;
-  padding-top: 1.6rem;
+  /* Optical positioning: gentle responsive offset for visual middle */
+  padding-top: clamp(3rem, 12vw, 8rem);
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (min-width: 750px) {
   .image-with-text--brand-story .image-with-text__text-item {
-    padding-top: 1.2rem;
+    /* Tablet: ~30% of image height */
+    padding-top: clamp(4rem, 10vw, 10rem);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .image-with-text--brand-story .image-with-text__text-item {
+    /* Desktop: ~35-40% of image height */
+    padding-top: clamp(5rem, 12vw, 14rem);
   }
 }
 
