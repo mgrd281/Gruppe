@@ -28,7 +28,7 @@
   assign poster = section.settings.cover_image
 
   if poster == blank
-    if media_type == 'upload_video' and section.settings.video != null
+    if media_type == 'upload_video' and section.settings.video != blank
       assign poster = section.settings.video.preview_image
     endif
   endif
@@ -46,7 +46,7 @@
         assign ratio_percent = 1 | divided_by: section.settings.image.aspect_ratio | times: 100
       elsif poster != blank
         assign ratio_percent = 1 | divided_by: poster.aspect_ratio | times: 100
-      elsif media_type == 'upload_video' and section.settings.video != null
+      elsif media_type == 'upload_video' and section.settings.video != blank
         assign ratio_percent = 1 | divided_by: section.settings.video.aspect_ratio | times: 100
       endif
   endcase
@@ -87,7 +87,7 @@
                     type="button"
                     aria-label="Play video"
                   >
-                    {%- if section.settings.enable_muted_preview and media_type == 'upload_video' and section.settings.video != null -%}
+                    {%- if section.settings.enable_muted_preview and media_type == 'upload_video' and section.settings.video != blank -%}
                       {{
                         section.settings.video
                         | video_tag:
@@ -95,7 +95,8 @@
                           autoplay: true,
                           loop: true,
                           controls: false,
-                          muted: true
+                          muted: true,
+                          playsinline: true
                       }}
                     {%- elsif poster != blank -%}
                       {{ poster | image_url: width: 2000 | image_tag: widths: '375, 550, 750, 1100, 1500, 2000', sizes: '100vw' }}
@@ -109,7 +110,7 @@
                     </span>
                   </button>
                   <template>
-                    {%- if media_type == 'external_video' and section.settings.external_video_url != null -%}
+                    {%- if media_type == 'external_video' and section.settings.external_video_url != blank -%}
                       {%- liquid
                         assign loop = ''
                         if section.settings.enable_video_looping
@@ -118,7 +119,7 @@
                       -%}
                       {%- if section.settings.external_video_url.type == 'youtube' -%}
                         <iframe
-                          src="https://www.youtube.com/embed/{{ external_video_id }}?enablejsapi=1&autoplay=1{{ loop }}"
+                          src="https://www.youtube.com/embed/{{ external_video_id }}?enablejsapi=1&autoplay=0{{ loop }}"
                           class="js-youtube"
                           allow="autoplay; encrypted-media"
                           allowfullscreen
@@ -126,7 +127,7 @@
                         ></iframe>
                       {%- else -%}
                         <iframe
-                          src="https://player.vimeo.com/video/{{ external_video_id }}?autoplay=1{{ loop }}"
+                          src="https://player.vimeo.com/video/{{ external_video_id }}?autoplay=0{{ loop }}"
                           class="js-vimeo"
                           allow="autoplay; encrypted-media"
                           allowfullscreen
@@ -138,10 +139,11 @@
                         section.settings.video
                         | video_tag:
                           image_size: '1100x',
-                          autoplay: true,
+                          autoplay: false,
                           loop: section.settings.enable_video_looping,
                           controls: true,
-                          muted: false
+                          muted: false,
+                          playsinline: true
                       }}
                     {%- endif -%}
                   </template>
