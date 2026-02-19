@@ -372,6 +372,173 @@
   margin-bottom: 1rem;
 }
 
+@media screen and (min-width: 750px) {
+  .image-with-text--brand-story {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.image-with-text--brand-story {
+  --brand-story-radius: 1.2rem;
+}
+
+.image-with-text--brand-story .image-with-text__editorial {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.2rem;
+  align-items: center;
+}
+
+@media screen and (min-width: 990px) {
+  .image-with-text--brand-story .image-with-text__editorial {
+    grid-template-columns: 3fr 2fr;
+    gap: 6rem;
+  }
+
+  .image-with-text--brand-story .image-with-text__editorial--reverse {
+    direction: rtl;
+  }
+
+  .image-with-text--brand-story .image-with-text__editorial--reverse > * {
+    direction: ltr;
+  }
+}
+
+.image-with-text--brand-story .image-with-text__media-item {
+  min-width: 0;
+}
+
+.image-with-text--brand-story .image-with-text__text-item {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.image-with-text--brand-story .image-with-text__content {
+  width: 100%;
+  padding: 0;
+  max-width: 52rem;
+}
+
+@media screen and (max-width: 749px) {
+  .image-with-text--brand-story .image-with-text__content {
+    max-width: none;
+  }
+}
+
+.image-with-text--brand-story.image-with-text--bg-white .image-with-text__content {
+  background: rgb(var(--color-background));
+  border-radius: var(--brand-story-radius);
+  padding: 2.4rem 2rem;
+}
+
+.image-with-text--brand-story.image-with-text--bg-soft .image-with-text__content {
+  background: rgba(var(--color-foreground), 0.03);
+  border-radius: var(--brand-story-radius);
+  padding: 2.4rem 2rem;
+}
+
+@media screen and (min-width: 990px) {
+  .image-with-text--brand-story.image-with-text--bg-white .image-with-text__content,
+  .image-with-text--brand-story.image-with-text--bg-soft .image-with-text__content {
+    padding: 3.2rem 3rem;
+  }
+}
+
+.image-with-text--brand-story .image-with-text__label {
+  margin: 0 0 1.2rem 0;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: calc(1.1rem * var(--font-body-scale));
+  line-height: 1.3;
+  opacity: 0.75;
+}
+
+.image-with-text--brand-story .image-with-text__headline {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  font-size: clamp(2.6rem, 2.1rem + 1.2vw, 4.4rem);
+}
+
+.image-with-text--brand-story .image-with-text__body {
+  margin-top: 1.6rem;
+  max-width: 42ch;
+  line-height: 1.7;
+}
+
+.image-with-text--brand-story .image-with-text__content > .button {
+  margin-top: 2.4rem;
+}
+
+.image-with-text--brand-story .image-with-text__media-shell {
+  position: relative;
+  border-radius: var(--brand-story-radius);
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.02);
+}
+
+.image-with-text--brand-story .image-with-text__media-shell::before {
+  content: '';
+  display: block;
+  padding-bottom: var(--ratio-percent, 56.25%);
+}
+
+.image-with-text--brand-story .image-with-text__media-inner {
+  position: absolute;
+  inset: 0;
+}
+
+.image-with-text--brand-story .image-with-text__media,
+.image-with-text--brand-story .image-with-text__poster,
+.image-with-text--brand-story .image-with-text__media iframe,
+.image-with-text--brand-story .image-with-text__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image-with-text--brand-story .image-with-text__media img,
+.image-with-text--brand-story .image-with-text__poster img,
+.image-with-text--brand-story .image-with-text__poster video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-with-text--brand-story .image-with-text__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.35) 100%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .image-with-text--brand-story .image-with-text__media-shell {
+    transition: transform var(--duration-extended) var(--ease-out-slow);
+    will-change: transform;
+  }
+
+  .image-with-text--brand-story .image-with-text__media-shell:hover {
+    transform: scale(1.01);
+  }
+
+  .image-with-text--brand-story .image-with-text__media-inner img,
+  .image-with-text--brand-story .image-with-text__media-inner video {
+    transition: transform var(--duration-extended) var(--ease-out-slow);
+    transform: scale(1);
+  }
+
+  .image-with-text--brand-story .image-with-text__media-shell:hover .image-with-text__media-inner img,
+  .image-with-text--brand-story .image-with-text__media-shell:hover .image-with-text__media-inner video {
+    transform: scale(1.035);
+  }
+}
+
 @media screen and (max-width: 749px) {
   .collapse-padding .image-with-text__grid .image-with-text__content {
     padding-left: 0;

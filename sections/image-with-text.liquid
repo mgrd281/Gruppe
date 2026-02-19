@@ -1,4 +1,5 @@
 {{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
+{{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -22,66 +23,157 @@
   if section.settings.color_scheme == section.settings.section_color_scheme and section.settings.content_layout == 'no-overlap'
     assign remove_color_classes = true
   endif
+
+  assign media_type = section.settings.media_type | default: 'image'
+  assign poster = section.settings.cover_image
+
+  if poster == blank
+    if media_type == 'upload_video' and section.settings.video != null
+      assign poster = section.settings.video.preview_image
+    endif
+  endif
+
+  assign ratio_percent = 56.25
+  case section.settings.media_aspect_ratio
+    when 'portrait'
+      assign ratio_percent = 125
+    when 'square'
+      assign ratio_percent = 100
+    when 'landscape'
+      assign ratio_percent = 56.25
+    else
+      if media_type == 'image' and section.settings.image != blank
+        assign ratio_percent = 1 | divided_by: section.settings.image.aspect_ratio | times: 100
+      elsif poster != blank
+        assign ratio_percent = 1 | divided_by: poster.aspect_ratio | times: 100
+      elsif media_type == 'upload_video' and section.settings.video != null
+        assign ratio_percent = 1 | divided_by: section.settings.video.aspect_ratio | times: 100
+      endif
+  endcase
+
+  assign external_video_id = section.settings.external_video_url.id
+  assign upload_video_id = section.settings.video.id
+  assign media_id = upload_video_id | default: external_video_id | default: section.id
 -%}
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
   <div class="page-width">
-    <div class="image-with-text image-with-text--{{ section.settings.content_layout }} isolate{% if settings.text_boxes_border_thickness > 0 and settings.text_boxes_border_opacity > 0 and settings.media_border_thickness > 0 and settings.media_border_opacity > 0 %} collapse-borders{% endif %}{% unless section.settings.color_scheme == section.settings.section_color_scheme and settings.media_border_thickness > 0 and settings.text_boxes_shadow_opacity == 0 and settings.text_boxes_border_thickness == 0 or settings.text_boxes_border_opacity == 0 %} collapse-corners{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      <div class="image-with-text__grid grid grid--gapless grid--1-col grid--{% if section.settings.desktop_image_width == 'medium' %}2-col-tablet{% else %}3-col-tablet{% endif %}{% if section.settings.layout == 'text_first' %} image-with-text__grid--reverse{% endif %}">
-        <div class="image-with-text__media-item image-with-text__media-item--{{ section.settings.desktop_image_width }} image-with-text__media-item--{{ section.settings.desktop_content_position }} grid__item">
-          <div
-            class="image-with-text__media image-with-text__media--{{ section.settings.height }} global-media-settings{% unless remove_color_classes %} gradient color-{{ section.settings.color_scheme }}{% else %} background-transparent{% endunless %}{% if section.settings.image != blank %} media{% else %} image-with-text__media--placeholder placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}"
-            {% if section.settings.height == 'adapt' and section.settings.image != blank %}
-              style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
-            {% endif %}
-          >
-            {%- if section.settings.image != blank -%}
-              {%- if section.settings.image_behavior == 'ambient' or section.settings.image_behavior == 'zoom-in' -%}
-                {%- assign widths = '198, 432, 642, 900, 1284, 1800' -%}
-                {%- capture sizes -%}
-              (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 1.6667 }}px,
-              (min-width: 750px) calc((100vw - 130px) / 1.667), calc((100vw - 50px) / 1.667)
-            {%- endcapture -%}
+    <div class="image-with-text image-with-text--brand-story image-with-text--media-{{ section.settings.layout }} image-with-text--bg-{{ section.settings.background_style }} isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      <div class="image-with-text__editorial{% if section.settings.layout == 'text_first' %} image-with-text__editorial--reverse{% endif %}">
+        <div class="image-with-text__media-item">
+          <div class="image-with-text__media-shell" style="--ratio-percent: {{ ratio_percent }}%;">
+            <div class="image-with-text__media-inner">
+              {%- if media_type == 'image' -%}
+                <div class="image-with-text__media media">
+                  {%- if section.settings.image != blank -%}
+                    {{
+                      section.settings.image
+                      | image_url: width: 2000
+                      | image_tag: widths: '375, 550, 750, 1100, 1500, 2000', sizes: '100vw', fetchpriority: fetch_priority
+                    }}
+                  {%- else -%}
+                    {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {%- endif -%}
+                </div>
               {%- else -%}
-                {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
-                {%- capture sizes -%}
-              (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
-              (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
-            {%- endcapture -%}
+                <deferred-media
+                  class="image-with-text__media deferred-media"
+                  data-media-id="{{ media_id }}"
+                  style="--ratio-percent: {{ ratio_percent }}%;"
+                >
+                  <button
+                    id="Deferred-Poster-BrandStory-{{ media_id }}"
+                    class="image-with-text__poster deferred-media__poster media"
+                    type="button"
+                    aria-label="Play video"
+                  >
+                    {%- if section.settings.enable_muted_preview and media_type == 'upload_video' and section.settings.video != null -%}
+                      {{
+                        section.settings.video
+                        | video_tag:
+                          image_size: '1100x',
+                          autoplay: true,
+                          loop: true,
+                          controls: false,
+                          muted: true
+                      }}
+                    {%- elsif poster != blank -%}
+                      {{ poster | image_url: width: 2000 | image_tag: widths: '375, 550, 750, 1100, 1500, 2000', sizes: '100vw' }}
+                    {%- else -%}
+                      {{ 'hero-apparel-3' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                    {%- endif -%}
+                    <span class="deferred-media__poster-button motion-reduce">
+                      <span class="svg-wrapper">
+                        {{- 'icon-play.svg' | inline_asset_content -}}
+                      </span>
+                    </span>
+                  </button>
+                  <template>
+                    {%- if media_type == 'external_video' and section.settings.external_video_url != null -%}
+                      {%- liquid
+                        assign loop = ''
+                        if section.settings.enable_video_looping
+                          assign loop = '&loop=1&playlist=' | append: external_video_id
+                        endif
+                      -%}
+                      {%- if section.settings.external_video_url.type == 'youtube' -%}
+                        <iframe
+                          src="https://www.youtube.com/embed/{{ external_video_id }}?enablejsapi=1&autoplay=1{{ loop }}"
+                          class="js-youtube"
+                          allow="autoplay; encrypted-media"
+                          allowfullscreen
+                          title="{{ section.settings.external_video_url.id | escape }}"
+                        ></iframe>
+                      {%- else -%}
+                        <iframe
+                          src="https://player.vimeo.com/video/{{ external_video_id }}?autoplay=1{{ loop }}"
+                          class="js-vimeo"
+                          allow="autoplay; encrypted-media"
+                          allowfullscreen
+                          title="{{ section.settings.external_video_url.id | escape }}"
+                        ></iframe>
+                      {%- endif -%}
+                    {%- else -%}
+                      {{
+                        section.settings.video
+                        | video_tag:
+                          image_size: '1100x',
+                          autoplay: true,
+                          loop: section.settings.enable_video_looping,
+                          controls: true,
+                          muted: false
+                      }}
+                    {%- endif -%}
+                  </template>
+                </deferred-media>
               {%- endif -%}
-              {{
-                section.settings.image
-                | image_url: width: 1500
-                | image_tag: sizes: sizes, widths: widths, fetchpriority: fetch_priority
-              }}
-            {%- else -%}
-              {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-            {%- endif -%}
+
+              {%- if section.settings.enable_overlay_gradient -%}
+                <div class="image-with-text__overlay" aria-hidden="true"></div>
+              {%- endif -%}
+            </div>
           </div>
         </div>
-        <div class="image-with-text__text-item grid__item">
+
+        <div class="image-with-text__text-item">
           <div
             id="ImageWithText--{{ section.id }}"
-            class="image-with-text__content image-with-text__content--{{ section.settings.desktop_content_position }} image-with-text__content--desktop-{{ section.settings.desktop_content_alignment }} image-with-text__content--mobile-{{ section.settings.mobile_content_alignment }} image-with-text__content--{{ section.settings.height }} content-container{% unless remove_color_classes %} gradient color-{{ section.settings.color_scheme }}{% else %} background-transparent{% endunless %}"
+            class="image-with-text__content image-with-text__content--desktop-{{ section.settings.desktop_content_alignment }} image-with-text__content--mobile-{{ section.settings.mobile_content_alignment }}"
           >
             {%- for block in section.blocks -%}
               {% case block.type %}
+                {%- when 'caption' -%}
+                  {%- if block.settings.caption != blank -%}
+                    <p class="image-with-text__label" {{ block.shopify_attributes }}>
+                      {{ block.settings.caption | escape }}
+                    </p>
+                  {%- endif -%}
                 {%- when 'heading' -%}
-                  <h2
-                    class="image-with-text__heading inline-richtext {{ block.settings.heading_size }}"
-                    {{ block.shopify_attributes }}
-                  >
+                  <h2 class="image-with-text__headline" {{ block.shopify_attributes }}>
                     {{ block.settings.heading }}
                   </h2>
-                {%- when 'caption' -%}
-                  <p
-                    class="image-with-text__text image-with-text__text--caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }} {{ block.settings.text_style }}"
-                    {{ block.shopify_attributes }}
-                  >
-                    {{ block.settings.caption | escape }}
-                  </p>
                 {%- when 'text' -%}
-                  <div class="image-with-text__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
+                  <div class="image-with-text__body rte" {{ block.shopify_attributes }}>
                     {{ block.settings.text }}
                   </div>
                 {%- when 'button' -%}
@@ -116,9 +208,60 @@
   },
   "settings": [
     {
+      "type": "select",
+      "id": "media_type",
+      "label": "Media type",
+      "default": "image",
+      "options": [
+        { "value": "image", "label": "Image" },
+        { "value": "upload_video", "label": "Upload Video" },
+        { "value": "external_video", "label": "External Video" }
+      ]
+    },
+    {
       "type": "image_picker",
       "id": "image",
       "label": "t:sections.image-with-text.settings.image.label"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Uploaded video"
+    },
+    {
+      "type": "video_url",
+      "id": "external_video_url",
+      "accept": ["youtube", "vimeo"],
+      "label": "External video link"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Video cover image"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Loop video",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_muted_preview",
+      "label": "Muted video preview",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "media_aspect_ratio",
+      "label": "Media aspect ratio",
+      "default": "adapt",
+      "options": [
+        { "value": "adapt", "label": "Adapt" },
+        { "value": "portrait", "label": "Portrait (4:5)" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "landscape", "label": "Landscape (16:9)" }
+      ]
     },
     {
       "type": "select",
@@ -179,6 +322,23 @@
       ],
       "default": "image_first",
       "label": "t:sections.image-with-text.settings.layout.label"
+    },
+    {
+      "type": "select",
+      "id": "background_style",
+      "label": "Background style",
+      "default": "transparent",
+      "options": [
+        { "value": "transparent", "label": "Transparent" },
+        { "value": "white", "label": "White" },
+        { "value": "soft", "label": "Soft neutral" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_overlay_gradient",
+      "label": "Overlay gradient",
+      "default": false
     },
     {
       "type": "select",
