@@ -383,29 +383,19 @@
   --brand-story-radius: 1.2rem;
 }
 
-/* Viewport-aware editorial layout: fit within initial viewport on laptop screens */
-@media screen and (min-width: 990px) {
-  .image-with-text--brand-story {
-    max-height: 88vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-}
-
+/* Natural document flow layout - no viewport height constraints */
 .image-with-text--brand-story .image-with-text__editorial {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2.2rem;
-  align-items: center;
+  align-items: start;
 }
 
 @media screen and (min-width: 990px) {
   .image-with-text--brand-story .image-with-text__editorial {
     grid-template-columns: 3fr 2fr;
     gap: 6rem;
-    align-items: center;
-    max-height: 72vh;
+    align-items: start;
   }
 
   .image-with-text--brand-story .image-with-text__editorial--reverse {
@@ -547,32 +537,17 @@
   display: none;
 }
 
-/* Legacy fade for backwards compatibility (desktop only) */
-@media screen and (min-width: 990px) {
-  .image-with-text--brand-story .image-with-text__body:not(.has-expand-toggle) {
-    max-height: 18vh;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .image-with-text--brand-story .image-with-text__body:not(.has-expand-toggle)::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4rem;
-    background: linear-gradient(to bottom, rgba(var(--color-background), 0), rgba(var(--color-background), 1));
-    pointer-events: none;
-  }
-}
-
 .image-with-text--brand-story .image-with-text__content > .button {
   margin-top: 3.2rem;
   flex-shrink: 0;
 }
 
-/* Media scaling: fit to available height instead of fixed aspect ratio */
+/* Media scaling: natural height with content, align to top */
+.image-with-text--brand-story .image-with-text__media-item {
+  min-width: 0;
+  align-self: start;
+}
+
 .image-with-text--brand-story .image-with-text__media-shell {
   position: relative;
   border-radius: var(--brand-story-radius);
@@ -584,12 +559,6 @@
   content: '';
   display: block;
   padding-bottom: var(--ratio-percent, 56.25%);
-}
-
-@media screen and (min-width: 990px) {
-  .image-with-text--brand-story .image-with-text__media-shell {
-    max-height: 72vh;
-  }
 }
 
 .image-with-text--brand-story .image-with-text__media-inner {
