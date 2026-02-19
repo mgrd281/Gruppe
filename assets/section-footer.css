@@ -114,6 +114,7 @@
   font-size: var(--bt-footer-size);
   line-height: var(--bt-footer-line-height);
   font-weight: 400;
+  max-width: 28ch;
 }
 
 .bt-footer__follow {
@@ -266,9 +267,6 @@
 .bt-footer__contact-text {
   color: var(--bt-footer-text);
   overflow: visible;
-  white-space: nowrap;
-  word-break: keep-all;
-  text-overflow: clip;
   font-size: var(--bt-footer-size);
   line-height: var(--bt-footer-line-height);
 }
@@ -470,7 +468,7 @@
   }
 
   .bt-footer__grid {
-    grid-template-columns: 1fr 0.9fr 1fr 1.3fr 1fr;
+    grid-template-columns: 1fr 1.1fr 1fr 1.3fr 1fr;
     gap: 1.5rem;
     align-items: start;
   }
