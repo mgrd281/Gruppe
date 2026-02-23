@@ -336,6 +336,7 @@
   font-weight: 400;
   line-height: var(--bt-footer-line-height);
   letter-spacing: 0.02em;
+  border: none;
 }
 
 .bt-footer__bottom {
