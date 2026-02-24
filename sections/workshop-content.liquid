@@ -1,7 +1,7 @@
-{{-
+{% comment %}
   Workshop Content Section
   Two-column layout: Left content, Right sticky booking card
--}}
+{% endcomment %}
 
 {%- liquid
   assign course_details = product.metafields.custom.course_details | default: product.description
