@@ -1,48 +1,87 @@
 {% comment %}
   Editorial product gallery for Workshop template.
-  Hero image + 2-column grid layout (AboutYou-style).
+  Hero + 2-column grid layout (AboutYou-style).
+  Supports: images, videos, external videos (YouTube/Vimeo).
 {% endcomment %}
 
 {%- liquid
   assign first_media = product.featured_media
-  assign remaining_media = product.media | where: 'id', first_media.id | last
+  assign media_count = product.media.size
 -%}
 
 <div class="workshop-gallery" data-workshop-gallery>
   
-  {%- if product.media.size > 0 -%}
+  {%- if media_count > 0 -%}
     
-    <!-- Hero Image -->
+    <!-- Hero Media -->
     <div class="workshop-gallery__hero">
       {%- if first_media -%}
-        <div class="workshop-gallery__hero-image">
-          {{
-            first_media
-            | image_url: width: 1400
-            | image_tag:
-              loading: 'eager',
-              sizes: '(min-width: 990px) 55vw, 100vw',
-              widths: '550, 720, 990, 1100, 1400',
-              alt: first_media.alt | default: product.title | escape
-          }}
+        <div class="workshop-gallery__hero-media" data-media-type="{{ first_media.media_type }}">
+          {%- case first_media.media_type -%}
+            
+            {%- when 'image' -%}
+              {{
+                first_media
+                | image_url: width: 1400
+                | image_tag:
+                  loading: 'eager',
+                  sizes: '(min-width: 990px) 55vw, 100vw',
+                  widths: '550, 720, 990, 1100, 1400',
+                  alt: first_media.alt | default: product.title | escape
+              }}
+            
+            {%- when 'video' -%}
+              <div class="workshop-gallery__video-wrapper">
+                {{ first_media | media_tag: controls: true, autoplay: false, loop: false, playsinline: true, preload: 'metadata' }}
+              </div>
+            
+            {%- when 'external_video' -%}
+              <div class="workshop-gallery__video-wrapper external-video">
+                {{ first_media | media_tag: controls: true, autoplay: false, loop: false, playsinline: true }}
+              </div>
+            
+            {%- when 'model' -%}
+              {{ first_media | model_viewer_tag }}
+            
+          {%- endcase -%}
         </div>
       {%- endif -%}
     </div>
     
-    <!-- Grid (remaining images, 2-column) -->
-    {%- if product.media.size > 1 -%}
+    <!-- Grid (remaining media, 2-column) -->
+    {%- if media_count > 1 -%}
       <div class="workshop-gallery__grid">
         {%- for media in product.media offset: 1 -%}
-          <div class="workshop-gallery__grid-item">
-            {{
-              media
-              | image_url: width: 800
-              | image_tag:
-                loading: 'lazy',
-                sizes: '(min-width: 990px) calc((55vw - 20px) / 2), 100vw',
-                widths: '400, 550, 720, 800',
-                alt: media.alt | default: product.title | escape
-            }}
+          <div class="workshop-gallery__grid-item" data-media-type="{{ media.media_type }}">
+            {%- case media.media_type -%}
+              
+              {%- when 'image' -%}
+                {{
+                  media
+                  | image_url: width: 800
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 990px) calc((55vw - 20px) / 2), 100vw',
+                    widths: '400, 550, 720, 800',
+                    alt: media.alt | default: product.title | escape
+                }}
+              
+              {%- when 'video' -%}
+                <div class="workshop-gallery__video-wrapper">
+                  {{ media | media_tag: controls: true, autoplay: false, loop: false, playsinline: true, preload: 'metadata' }}
+                </div>
+              
+              {%- when 'external_video' -%}
+                <div class="workshop-gallery__video-wrapper external-video">
+                  {{ media | media_tag: controls: true, autoplay: false, loop: false, playsinline: true }}
+                </div>
+              
+              {%- when 'model' -%}
+                <div class="workshop-gallery__model-wrapper">
+                  {{ media | model_viewer_tag }}
+                </div>
+              
+            {%- endcase -%}
           </div>
         {%- endfor -%}
       </div>
@@ -50,7 +89,7 @@
     
   {%- else -%}
     
-    <!-- Placeholder if no images -->
+    <!-- Placeholder if no media -->
     <div class="workshop-gallery__hero">
       <div class="workshop-gallery__hero-image workshop-gallery__placeholder">
         {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}

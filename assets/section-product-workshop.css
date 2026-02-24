@@ -469,7 +469,7 @@
   margin-bottom: 1.6rem;
 }
 
-.workshop-gallery__hero-image {
+.workshop-gallery__hero-media {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
@@ -478,15 +478,72 @@
   background: rgba(var(--color-foreground), 0.03);
 }
 
-.workshop-gallery__hero-image img {
+.workshop-gallery__hero-media img,
+.workshop-gallery__hero-media video,
+.workshop-gallery__hero-media .shopify-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 400ms ease;
 }
 
-.workshop-gallery__hero-image:hover img {
+.workshop-gallery__hero-media:hover img,
+.workshop-gallery__hero-media:hover video {
   transform: scale(1.02);
+}
+
+/* Video wrapper styles */
+.workshop-gallery__video-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.workshop-gallery__video-wrapper video,
+.workshop-gallery__video-wrapper iframe,
+.workshop-gallery__video-wrapper .shopify-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.workshop-gallery__video-wrapper.external-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Model viewer wrapper */
+.workshop-gallery__model-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+/* Grid item with media type support */
+.workshop-gallery__grid-item[data-media-type='video'],
+.workshop-gallery__grid-item[data-media-type='external_video'] {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 12px;
+  background: rgba(var(--color-foreground), 0.03);
+}
+
+.workshop-gallery__grid-item[data-media-type='video'] .workshop-gallery__video-wrapper,
+.workshop-gallery__grid-item[data-media-type='external_video'] .workshop-gallery__video-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.workshop-gallery__grid-item[data-media-type='video'] video,
+.workshop-gallery__grid-item[data-media-type='external_video'] iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
 }
 
 /* Grid (2-column) */
@@ -505,14 +562,17 @@
   background: rgba(var(--color-foreground), 0.03);
 }
 
-.workshop-gallery__grid-item img {
+.workshop-gallery__grid-item img,
+.workshop-gallery__grid-item video,
+.workshop-gallery__grid-item iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 400ms ease;
 }
 
-.workshop-gallery__grid-item:hover img {
+.workshop-gallery__grid-item:hover img,
+.workshop-gallery__grid-item:hover video {
   transform: scale(1.02);
 }
 
