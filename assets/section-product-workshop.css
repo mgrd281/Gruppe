@@ -268,6 +268,31 @@
   height: 16px;
 }
 
+.bt-workshop-stepper__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background: rgba(var(--color-foreground), 0.01);
+}
+
+.bt-workshop-stepper__btn:disabled:hover {
+  background: rgba(var(--color-foreground), 0.01);
+  color: rgba(var(--color-foreground), 0.35);
+}
+
+.bt-workshop-stepper__input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Availability Hint */
+.bt-workshop-field__hint {
+  display: block;
+  font-size: 1.2rem;
+  color: rgba(var(--color-foreground), 0.6);
+  margin-top: 0.4rem;
+  font-weight: 450;
+}
+
 .bt-workshop-stepper__input {
   flex: 1;
   min-width: 0;
@@ -279,6 +304,7 @@
   font-weight: 500;
   color: rgb(var(--color-foreground));
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .bt-workshop-stepper__input::-webkit-outer-spin-button,

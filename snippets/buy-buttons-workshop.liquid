@@ -16,11 +16,23 @@
       endif
     -%}
 
+    {%- liquid
+      assign variant = product.selected_or_first_available_variant
+      assign inventory_qty = variant.inventory_quantity | default: 0
+      assign max_seats = inventory_qty | at_most: 6
+      if inventory_qty <= 0
+        assign available_seats = 0
+      else
+        assign available_seats = max_seats
+      endif
+    -%}
     <product-form
       class="product-form product-workshop-form"
       data-hide-errors="false"
       data-section-id="{{ section_id }}"
       data-workshop-booking="true"
+      data-max-seats="{{ available_seats }}"
+      data-inventory-quantity="{{ inventory_qty }}"
     >
       <div class="product-form__error-message-wrapper product-workshop__error" role="alert" hidden>
         <span class="svg-wrapper">
@@ -82,7 +94,7 @@
               <input type="hidden" name="properties[Uhrzeit]" value="12:00">
             </div>
 
-            <!-- Persons Field with Stepper -->
+            <!-- Persons Field with Stepper (bound to Shopify quantity) -->
             <div class="bt-workshop-field">
               <label class="bt-workshop-field__label" for="WorkshopPersons-{{ section_id }}">
                 <span class="bt-workshop-field__icon" aria-hidden="true">
@@ -102,6 +114,7 @@
                     class="bt-workshop-stepper__btn bt-workshop-stepper__btn--minus" 
                     data-booking-step="-1"
                     aria-label="Weniger"
+                    {% if available_seats <= 0 %}disabled{% endif %}
                   >
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -111,19 +124,22 @@
                     id="WorkshopPersons-{{ section_id }}"
                     class="bt-workshop-stepper__input"
                     type="number"
-                    name="properties[Personen]"
+                    name="quantity"
                     value="1"
                     min="1"
-                    max="20"
+                    max="{{ available_seats | at_least: 1 }}"
+                    {% if available_seats <= 0 %}disabled{% endif %}
                     required
                     data-booking-required
                     data-booking-field="persons"
+                    data-max-seats="{{ available_seats }}"
                   >
                   <button 
                     type="button" 
                     class="bt-workshop-stepper__btn bt-workshop-stepper__btn--plus" 
                     data-booking-step="1"
                     aria-label="Mehr"
+                    {% if available_seats <= 0 %}disabled{% endif %}
                   >
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -131,6 +147,9 @@
                     </svg>
                   </button>
                 </div>
+                {%- if available_seats > 0 and available_seats <= 6 -%}
+                  <span class="bt-workshop-field__hint">Noch {{ available_seats }} {{ available_seats | pluralize: 'Platz', 'Plätze' }} verfügbar</span>
+                {%- endif -%}
               </div>
               <span class="bt-workshop-field__error" data-booking-error-for="persons" hidden>Bitte Personenanzahl wählen</span>
             </div>
@@ -171,13 +190,13 @@
             type="submit"
             name="add"
             class="product-form__submit button button--full-width button--primary product-workshop-form__submit"
-            {% if product.selected_or_first_available_variant.available == false %}
+            {% if available_seats <= 0 %}
               disabled
             {% endif %}
           >
             <span class="product-workshop-form__submit-text">
-              {%- if product.selected_or_first_available_variant.available == false -%}
-                Ausverkauft
+              {%- if available_seats <= 0 -%}
+                Ausgebucht
               {%- else -%}
                 In den Warenkorb legen
               {%- endif -%}
@@ -196,7 +215,7 @@
   {%- else -%}
     <div class="product-form">
       <button type="submit" class="product-form__submit button button--full-width button--primary" disabled>
-        Ausverkauft
+        Ausgebucht
       </button>
     </div>
   {%- endif -%}

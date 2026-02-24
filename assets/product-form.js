@@ -23,6 +23,8 @@ if (!customElements.get('product-form')) {
           this.bookingErrors = Array.from(this.querySelectorAll('[data-booking-error-for]'));
           this.paymentButton = this.querySelector('.shopify-payment-button__button');
           this.stepButtons = Array.from(this.querySelectorAll('[data-booking-step]'));
+          this.maxSeats = Number(this.dataset.maxSeats || 6);
+          this.inventoryQty = Number(this.dataset.inventoryQuantity || 0);
 
           this.stepButtons.forEach((btn) => {
             btn.addEventListener('click', () => {
@@ -30,11 +32,27 @@ if (!customElements.get('product-form')) {
               const persons = this.querySelector('[data-booking-field="persons"]');
               if (!persons) return;
               const current = Number(persons.value || 1);
-              const next = Math.max(Number(persons.getAttribute('min') || 1), current + step);
+              const min = Number(persons.getAttribute('min') || 1);
+              const max = Number(persons.dataset.maxSeats || this.maxSeats);
+              let next = current + step;
+              next = Math.max(min, Math.min(max, next));
               persons.value = String(next);
+              this.updateStepperState();
               persons.dispatchEvent(new Event('input', { bubbles: true }));
             });
           });
+
+          const personsInput = this.querySelector('[data-booking-field="persons"]');
+          if (personsInput) {
+            personsInput.addEventListener('input', () => {
+              this.sanitizePersonsInput();
+              this.updateStepperState();
+            });
+            personsInput.addEventListener('change', () => {
+              this.sanitizePersonsInput();
+              this.updateStepperState();
+            });
+          }
 
           this.bookingFields.forEach((el) => {
             el.addEventListener('input', () => this.updateBookingState());
@@ -55,7 +73,37 @@ if (!customElements.get('product-form')) {
             );
           }
 
+          this.updateStepperState();
           this.updateBookingState();
+        }
+      }
+
+      sanitizePersonsInput() {
+        const persons = this.querySelector('[data-booking-field="persons"]');
+        if (!persons) return;
+        const min = Number(persons.getAttribute('min') || 1);
+        const max = Number(persons.dataset.maxSeats || this.maxSeats);
+        let value = Number(persons.value || 1);
+        if (!Number.isFinite(value) || value < min) value = min;
+        if (value > max) value = max;
+        persons.value = String(value);
+      }
+
+      updateStepperState() {
+        const persons = this.querySelector('[data-booking-field="persons"]');
+        if (!persons) return;
+        const current = Number(persons.value || 1);
+        const min = Number(persons.getAttribute('min') || 1);
+        const max = Number(persons.dataset.maxSeats || this.maxSeats);
+
+        const minusBtn = this.querySelector('.bt-workshop-stepper__btn--minus');
+        const plusBtn = this.querySelector('.bt-workshop-stepper__btn--plus');
+
+        if (minusBtn) {
+          minusBtn.disabled = current <= min || this.maxSeats <= 0;
+        }
+        if (plusBtn) {
+          plusBtn.disabled = current >= max || this.maxSeats <= 0;
         }
       }
 
