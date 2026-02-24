@@ -78,8 +78,17 @@
   font-size: clamp(2.2rem, 4vw, 3.2rem);
   font-weight: 600;
   line-height: 1.2;
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.4rem 0;
   letter-spacing: -0.01em;
+}
+
+.product-workshop__date-subtitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #555;
+  margin: 0 0 1rem 0;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
 }
 
 .product-workshop__price {
