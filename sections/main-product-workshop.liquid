@@ -65,8 +65,15 @@
               
               {%- when 'title' -%}
                 <div class="product__title product-workshop__title" {{ block.shopify_attributes }}>
-                  {%- assign workshop_date = product.metafields.custom.workshop_date | default: '08.03' -%}
-                  {%- assign workshop_time = product.metafields.custom.workshop_time | default: '12:00' -%}
+                  {%- assign workshop_date = '08.03' -%}
+                  {%- assign workshop_time = '12:00' -%}
+                  {%- for tag in product.tags -%}
+                    {%- if tag contains 'um' -%}
+                      {%- assign parts = tag | split: ' um ' -%}
+                      {%- assign workshop_date = parts[0] -%}
+                      {%- assign workshop_time = parts[1] | split: ' ' | first -%}
+                    {%- endif -%}
+                  {%- endfor -%}
                   <h1>{{ product.title | escape }}<span class="product-workshop__title-date"> – {{ workshop_date }} · {{ workshop_time }} Uhr</span></h1>
                 </div>
               
