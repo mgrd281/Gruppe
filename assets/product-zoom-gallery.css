@@ -1,0 +1,300 @@
+/**
+ * Premium Product Zoom Gallery Styles
+ * Modern e-commerce zoom experience
+ */
+
+/* ============================================
+   HOVER ZOOM (Desktop)
+   ============================================ */
+
+.product-zoom-hover {
+  transition: transform 200ms ease;
+  will-change: transform;
+}
+
+.product__media:hover .product-zoom-hover {
+  transform: scale(1.08);
+}
+
+.product__media {
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.product__modal-opener {
+  display: block;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+/* Hide old magnify icon on hover */
+.product__media-icon {
+  transition: opacity 200ms ease;
+}
+
+.product__modal-opener:hover .product__media-icon {
+  opacity: 0.8;
+}
+
+/* ============================================
+   FULLSCREEN ZOOM MODAL
+   ============================================ */
+
+product-zoom-gallery {
+  display: contents;
+}
+
+.product-zoom-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 300ms ease, visibility 300ms ease;
+}
+
+.product-zoom-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Close Button */
+.product-zoom-close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.product-zoom-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.product-zoom-close svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+/* Navigation Buttons */
+.product-zoom-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 200ms ease, transform 200ms ease, opacity 200ms ease;
+}
+
+.product-zoom-nav:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.product-zoom-nav:disabled {
+  cursor: not-allowed;
+}
+
+.product-zoom-nav svg {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+.product-zoom-prev {
+  left: 2rem;
+}
+
+.product-zoom-next {
+  right: 2rem;
+}
+
+/* Image Counter */
+.product-zoom-counter {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 0.8rem 1.6rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  z-index: 10;
+  letter-spacing: 0.02em;
+}
+
+/* Image Track */
+.product-zoom-track-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.product-zoom-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 300ms ease;
+}
+
+.product-zoom-slide {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  box-sizing: border-box;
+}
+
+.product-zoom-slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+  transition: transform 200ms ease;
+  will-change: transform;
+}
+
+/* ============================================
+   MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media screen and (max-width: 749px) {
+  .product-zoom-close {
+    top: 1rem;
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .product-zoom-close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .product-zoom-nav {
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .product-zoom-nav svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .product-zoom-prev {
+    left: 1rem;
+  }
+
+  .product-zoom-next {
+    right: 1rem;
+  }
+
+  .product-zoom-slide {
+    padding: 0;
+  }
+
+  .product-zoom-slide img {
+    max-height: 85vh;
+  }
+
+  .product-zoom-counter {
+    bottom: 1.5rem;
+    font-size: 1.3rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Hide navigation arrows on mobile - use swipe */
+  .product-zoom-nav {
+    display: none;
+  }
+}
+
+/* Tablet adjustments */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .product-zoom-slide {
+    padding: 3rem;
+  }
+
+  .product-zoom-prev {
+    left: 1.5rem;
+  }
+
+  .product-zoom-next {
+    right: 1.5rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .product-zoom-hover,
+  .product-zoom-modal,
+  .product-zoom-track,
+  .product-zoom-close,
+  .product-zoom-nav,
+  .product-zoom-slide img {
+    transition: none !important;
+  }
+}
+
+/* Focus visible styles */
+.product-zoom-close:focus-visible,
+.product-zoom-nav:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   HIDE OLD ZOOM ELEMENTS
+   ============================================ */
+
+.image-magnify-full-size {
+  display: none !important;
+}
+
+/* Keep existing product media styles but enhance */
+.product__media.media {
+  position: relative;
+}
+
+/* Ensure smooth zoom doesn't cause layout shifts */
+.product__media-item {
+  contain: layout style;
+}

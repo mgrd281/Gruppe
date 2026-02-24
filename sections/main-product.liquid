@@ -10,6 +10,7 @@
   {% endif %}
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+  {{ 'product-zoom-gallery.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
@@ -40,6 +41,7 @@
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-zoom-gallery.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
   {%- if product.quantity_price_breaks_configured? -%}
     <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
@@ -685,6 +687,32 @@
     </div>
 
     {% render 'product-media-modal', variant_images: variant_images %}
+
+    {% comment %} Premium Zoom Gallery {% endcomment %}
+    <product-zoom-gallery>
+      <div class="product-zoom-modal">
+        <button class="product-zoom-close" type="button" aria-label="{{ 'accessibility.close' | t }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <button class="product-zoom-nav product-zoom-prev" type="button" aria-label="{{ 'general.slider.previous_slide' | t }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="product-zoom-nav product-zoom-next" type="button" aria-label="{{ 'general.slider.next_slide' | t }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+        <div class="product-zoom-counter">1 / {{ product.media.size }}</div>
+        <div class="product-zoom-track-container">
+          <div class="product-zoom-track"></div>
+        </div>
+      </div>
+    </product-zoom-gallery>
 
     {% assign popups = section.blocks | where: 'type', 'popup' %}
     {%- for block in popups -%}
