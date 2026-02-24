@@ -720,7 +720,7 @@
 }
 
 /* ============================================
-   Premium Lightbox / Fullscreen Gallery
+   Premium Lightbox / Fullscreen Gallery (AboutYou-style)
    ============================================ */
 
 .workshop-lightbox {
@@ -746,10 +746,12 @@
   background: rgba(0, 0, 0, 0.85);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
+  cursor: pointer;
 }
 
+/* Close Button */
 .workshop-lightbox__close {
-  position: absolute;
+  position: fixed;
   top: 20px;
   right: 20px;
   width: 44px;
@@ -763,7 +765,7 @@
   color: #fff;
   cursor: pointer;
   transition: background 180ms ease, transform 180ms ease;
-  z-index: 10;
+  z-index: 20;
 }
 
 .workshop-lightbox__close:hover {
@@ -771,8 +773,117 @@
   transform: scale(1.05);
 }
 
+/* Main Content Area */
+.workshop-lightbox__main {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 60px 80px;
+  gap: 24px;
+}
+
+/* Thumbnail Rail (Desktop) */
+.workshop-lightbox__thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.3) transparent;
+}
+
+.workshop-lightbox__thumbnails::-webkit-scrollbar {
+  width: 4px;
+}
+
+.workshop-lightbox__thumbnails::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+}
+
+.workshop-lightbox__thumbnail {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 180ms ease, border-color 180ms ease;
+  background: rgba(0,0,0,0.2);
+  padding: 0;
+}
+
+.workshop-lightbox__thumbnail:hover {
+  opacity: 0.9;
+}
+
+.workshop-lightbox__thumbnail.is-active {
+  border-color: #fff;
+  opacity: 1;
+}
+
+.workshop-lightbox__thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.workshop-lightbox__thumbnail-video {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+/* Media Container */
+.workshop-lightbox__media-container {
+  position: relative;
+  flex: 1;
+  max-width: calc(100vw - 200px);
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 300ms ease, opacity 300ms ease;
+}
+
+.workshop-lightbox.is-active .workshop-lightbox__media-container {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.workshop-lightbox__media-container img,
+.workshop-lightbox__media-container video {
+  max-width: 100%;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  cursor: zoom-in;
+  transition: transform 200ms ease;
+}
+
+.workshop-lightbox__media-container img.is-zoomed {
+  cursor: zoom-out;
+  transform: scale(1.5);
+}
+
+/* Navigation Arrows */
 .workshop-lightbox__nav {
-  position: absolute;
+  position: fixed;
   top: 50%;
   transform: translateY(-50%);
   width: 50px;
@@ -786,7 +897,7 @@
   color: #fff;
   cursor: pointer;
   transition: background 180ms ease, transform 180ms ease;
-  z-index: 10;
+  z-index: 15;
 }
 
 .workshop-lightbox__nav:hover {
@@ -807,63 +918,37 @@
   cursor: not-allowed;
 }
 
-.workshop-lightbox__content {
-  position: relative;
-  z-index: 5;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 80px 60px;
-}
-
-.workshop-lightbox__media-container {
-  position: relative;
-  max-width: 100%;
-  max-height: calc(100% - 60px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: scale(0.95);
-  opacity: 0;
-  transition: transform 300ms ease, opacity 300ms ease;
-}
-
-.workshop-lightbox.is-active .workshop-lightbox__media-container {
-  transform: scale(1);
-  opacity: 1;
-}
-
-.workshop-lightbox__media-container img,
-.workshop-lightbox__media-container video {
-  max-width: 100%;
-  max-height: 80vh;
-  object-fit: contain;
-  border-radius: 4px;
-  cursor: zoom-in;
-  transition: transform 200ms ease;
-}
-
-.workshop-lightbox__media-container img.is-zoomed {
-  cursor: zoom-out;
-  transform: scale(1.5);
-}
-
-.workshop-lightbox__counter {
-  position: absolute;
+/* Mobile Dots */
+.workshop-lightbox__dots {
+  position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 15;
   pointer-events: none;
+}
+
+.workshop-lightbox__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+  pointer-events: auto;
+}
+
+.workshop-lightbox__dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.workshop-lightbox__dot.is-active {
+  background: #fff;
+  transform: scale(1.2);
 }
 
 /* Mobile Lightbox Adjustments */
@@ -888,26 +973,35 @@
     right: 12px;
   }
 
-  .workshop-lightbox__content {
-    padding: 60px 50px 50px;
+  .workshop-lightbox__main {
+    padding: 50px 16px 80px;
+  }
+
+  /* Hide thumbnails on mobile */
+  .workshop-lightbox__thumbnails {
+    display: none;
+  }
+
+  .workshop-lightbox__media-container {
+    max-width: 100%;
+    max-height: 70vh;
   }
 
   .workshop-lightbox__media-container img,
   .workshop-lightbox__media-container video {
     max-height: 70vh;
   }
+}
 
-  .workshop-lightbox__counter {
-    bottom: 12px;
+/* Desktop: hide dots */
+@media screen and (min-width: 750px) {
+  .workshop-lightbox__dots {
+    display: none;
   }
 }
 
 /* Hide navigation on mobile with single image */
 .workshop-lightbox[data-total="1"] .workshop-lightbox__nav {
-  display: none;
-}
-
-.workshop-lightbox[data-total="1"] .workshop-lightbox__counter {
   display: none;
 }
 

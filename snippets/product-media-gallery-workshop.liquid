@@ -147,37 +147,78 @@
   
 </div>
 
-<!-- Lightbox Modal -->
+<!-- Lightbox Modal (AboutYou-style) -->
 <div id="workshop-lightbox" class="workshop-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Fullscreen gallery">
-  <div class="workshop-lightbox__overlay"></div>
+  <div class="workshop-lightbox__overlay" data-lightbox-close></div>
   
-  <button class="workshop-lightbox__close" aria-label="Close gallery">
+  <!-- Close Button -->
+  <button class="workshop-lightbox__close" data-lightbox-close aria-label="Close gallery">
     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="18" y1="6" x2="6" y2="18"></line>
       <line x1="6" y1="6" x2="18" y2="18"></line>
     </svg>
   </button>
   
-  <button class="workshop-lightbox__nav workshop-lightbox__nav--prev" aria-label="Previous image">
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Main Content Area -->
+  <div class="workshop-lightbox__main">
+    
+    <!-- Thumbnail Rail (Desktop) -->
+    {%- if media_count > 1 -%}
+    <div class="workshop-lightbox__thumbnails" data-lightbox-thumbnails>
+      {%- for media in product.media -%}
+        <button 
+          class="workshop-lightbox__thumbnail{% if forloop.first %} is-active{% endif %}" 
+          data-thumbnail-index="{{ forloop.index0 }}"
+          aria-label="Go to image {{ forloop.index }}"
+        >
+          {%- if media.media_type == 'image' -%}
+            <img src="{{ media | image_url: width: 120 }}" alt="{{ media.alt | default: product.title }}" loading="lazy">
+          {%- elsif media.media_type == 'video' or media.media_type == 'external_video' -%}
+            <div class="workshop-lightbox__thumbnail-video">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </div>
+          {%- endif -%}
+        </button>
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
+    
+    <!-- Media Container -->
+    <div class="workshop-lightbox__media-container" data-lightbox-media>
+      <!-- Media loaded dynamically via JS -->
+    </div>
+    
+  </div>
+  
+  <!-- Navigation Arrows -->
+  {%- if media_count > 1 -%}
+  <button class="workshop-lightbox__nav workshop-lightbox__nav--prev" data-lightbox-prev aria-label="Previous image">
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="15 18 9 12 15 6"></polyline>
     </svg>
   </button>
   
-  <button class="workshop-lightbox__nav workshop-lightbox__nav--next" aria-label="Next image">
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <button class="workshop-lightbox__nav workshop-lightbox__nav--next" data-lightbox-next aria-label="Next image">
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </button>
+  {%- endif -%}
   
-  <div class="workshop-lightbox__content">
-    <div class="workshop-lightbox__media-container" data-lightbox-media>
-      <!-- Media loaded dynamically via JS -->
-    </div>
-    <div class="workshop-lightbox__counter">
-      <span data-lightbox-current>1</span> / <span data-lightbox-total>{{ media_count }}</span>
-    </div>
+  <!-- Mobile Dots -->
+  {%- if media_count > 1 -%}
+  <div class="workshop-lightbox__dots" data-lightbox-dots>
+    {%- for media in product.media -%}
+      <button 
+        class="workshop-lightbox__dot{% if forloop.first %} is-active{% endif %}" 
+        data-dot-index="{{ forloop.index0 }}"
+        aria-label="Go to image {{ forloop.index }}"
+      ></button>
+    {%- endfor -%}
   </div>
+  {%- endif -%}
 </div>
 
 <script src="{{ 'workshop-gallery-zoom.js' | asset_url }}" defer></script>

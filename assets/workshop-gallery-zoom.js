@@ -119,8 +119,8 @@
     const closeBtn = lightbox.querySelector('.workshop-lightbox__close');
     if (closeBtn) closeBtn.focus();
 
-    // Update counter
-    updateCounter();
+    // Update navigation
+    updateNavigation();
 
     clearTimeout(cleanupTimer);
     cleanupTimer = setTimeout(() => {
@@ -164,7 +164,7 @@
     if (currentIndex < totalMedia - 1) {
       currentIndex++;
       renderCurrentMedia();
-      updateCounter();
+      updateNavigation();
       resetZoom();
     }
   }
@@ -176,7 +176,7 @@
     if (currentIndex > 0) {
       currentIndex--;
       renderCurrentMedia();
-      updateCounter();
+      updateNavigation();
       resetZoom();
     }
   }
@@ -254,18 +254,27 @@
   }
 
   /**
-   * Update counter display
+   * Update navigation states (thumbnails, dots, arrows)
    */
-  function updateCounter() {
-    const currentEl = lightbox?.querySelector('[data-lightbox-current]');
-    if (currentEl) currentEl.textContent = currentIndex + 1;
-
+  function updateNavigation() {
     // Update nav button states
-    const prevBtn = lightbox?.querySelector('.workshop-lightbox__nav--prev');
-    const nextBtn = lightbox?.querySelector('.workshop-lightbox__nav--next');
+    const prevBtn = lightbox?.querySelector('[data-lightbox-prev]');
+    const nextBtn = lightbox?.querySelector('[data-lightbox-next]');
     
     if (prevBtn) prevBtn.disabled = currentIndex === 0;
     if (nextBtn) nextBtn.disabled = currentIndex === totalMedia - 1;
+
+    // Update thumbnail active state
+    const thumbnails = lightbox?.querySelectorAll('.workshop-lightbox__thumbnail');
+    thumbnails?.forEach((thumb, i) => {
+      thumb.classList.toggle('is-active', i === currentIndex);
+    });
+
+    // Update dot active state
+    const dots = lightbox?.querySelectorAll('.workshop-lightbox__dot');
+    dots?.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === currentIndex);
+    });
   }
 
   /**
@@ -274,20 +283,42 @@
   function setupLightboxControls() {
     if (!lightbox) return;
 
-    // Close button
-    const closeBtn = lightbox.querySelector('.workshop-lightbox__close');
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    // Close buttons (X and overlay)
+    const closeTriggers = lightbox.querySelectorAll('[data-lightbox-close]');
+    closeTriggers.forEach(el => el.addEventListener('click', closeLightbox));
 
     // Navigation buttons
-    const prevBtn = lightbox.querySelector('.workshop-lightbox__nav--prev');
-    const nextBtn = lightbox.querySelector('.workshop-lightbox__nav--next');
+    const prevBtn = lightbox.querySelector('[data-lightbox-prev]');
+    const nextBtn = lightbox.querySelector('[data-lightbox-next]');
     
     if (prevBtn) prevBtn.addEventListener('click', prevMedia);
     if (nextBtn) nextBtn.addEventListener('click', nextMedia);
 
-    // Close on overlay click
-    const overlay = lightbox.querySelector('.workshop-lightbox__overlay');
-    if (overlay) overlay.addEventListener('click', closeLightbox);
+    // Thumbnail navigation
+    const thumbnails = lightbox.querySelectorAll('.workshop-lightbox__thumbnail');
+    thumbnails.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        if (index !== currentIndex) {
+          currentIndex = index;
+          renderCurrentMedia();
+          updateNavigation();
+          resetZoom();
+        }
+      });
+    });
+
+    // Dot navigation (mobile)
+    const dots = lightbox.querySelectorAll('.workshop-lightbox__dot');
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        if (index !== currentIndex) {
+          currentIndex = index;
+          renderCurrentMedia();
+          updateNavigation();
+          resetZoom();
+        }
+      });
+    });
 
     // Keyboard navigation (single binding)
     document.addEventListener('keydown', onKeyDown);
