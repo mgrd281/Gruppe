@@ -479,6 +479,24 @@
   cursor: pointer;
 }
 
+/* Indicate zoom intent */
+.workshop-gallery__zoomable {
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+/* Lightbox media should allow pinch-zoom on image only */
+.workshop-lightbox__media-container {
+  touch-action: pan-x pan-y;
+}
+
+.workshop-lightbox__media-container img {
+  touch-action: pinch-zoom;
+}
+
 .workshop-gallery__hero-media img,
 .workshop-gallery__hero-media video,
 .workshop-gallery__hero-media .shopify-video {

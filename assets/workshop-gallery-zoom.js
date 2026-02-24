@@ -15,6 +15,8 @@
   let isZoomed = false;
   let touchStartX = 0;
   let touchEndX = 0;
+  let lastTapTs = 0;
+  const DOUBLE_TAP_MS = 280;
 
   /**
    * Initialize gallery zoom functionality
@@ -35,6 +37,15 @@
     // Attach click handlers
     zoomables.forEach((el, index) => {
       el.addEventListener('click', () => openLightbox(index));
+      el.addEventListener('touchend', (e) => {
+        // Prevent iOS double-tap page zoom and still allow opening.
+        if (e.cancelable) e.preventDefault();
+        openLightbox(index);
+      }, { passive: false });
+      el.addEventListener('dblclick', (e) => {
+        if (e.cancelable) e.preventDefault();
+        openLightbox(index);
+      });
       el.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -105,9 +116,7 @@
     document.body.classList.remove('workshop-lightbox-open');
     
     // Reset zoom
-    isZoomed = false;
-    const img = mediaContainer?.querySelector('img');
-    if (img) img.classList.remove('is-zoomed');
+    resetZoom();
   }
 
   /**
@@ -163,6 +172,17 @@
     const img = mediaContainer.querySelector('img');
     if (img) {
       img.addEventListener('click', toggleZoom);
+      img.addEventListener('touchend', (e) => {
+        // Double-tap inside lightbox toggles zoom
+        const now = Date.now();
+        if (now - lastTapTs < DOUBLE_TAP_MS) {
+          if (e.cancelable) e.preventDefault();
+          toggleZoom();
+          lastTapTs = 0;
+          return;
+        }
+        lastTapTs = now;
+      }, { passive: false });
     }
   }
 
@@ -175,6 +195,9 @@
 
     isZoomed = !isZoomed;
     img.classList.toggle('is-zoomed', isZoomed);
+    if (!isZoomed) {
+      img.style.transform = '';
+    }
   }
 
   /**
@@ -183,7 +206,11 @@
   function resetZoom() {
     isZoomed = false;
     const img = mediaContainer?.querySelector('img');
-    if (img) img.classList.remove('is-zoomed');
+    if (img) {
+      img.classList.remove('is-zoomed');
+      img.style.transform = '';
+      img.style.transformOrigin = '';
+    }
   }
 
   /**
@@ -282,33 +309,53 @@
 
     let initialDistance = 0;
     let currentScale = 1;
+    let isPinching = false;
 
     mediaContainer.addEventListener('touchstart', (e) => {
+      if (!lightbox || !lightbox.classList.contains('is-active')) return;
+      const img = mediaContainer.querySelector('img');
+      if (!img) return;
+
       if (e.touches.length === 2) {
         initialDistance = getDistance(e.touches[0], e.touches[1]);
+        currentScale = 1;
+        isPinching = true;
+        img.style.transformOrigin = 'center center';
       }
     }, { passive: true });
 
     mediaContainer.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 2) {
-        e.preventDefault();
+      if (!lightbox || !lightbox.classList.contains('is-active')) return;
+      const img = mediaContainer.querySelector('img');
+      if (!img) return;
+
+      if (e.touches.length === 2 && isPinching && initialDistance > 0) {
+        if (e.cancelable) e.preventDefault();
         const currentDistance = getDistance(e.touches[0], e.touches[1]);
         const scale = currentDistance / initialDistance;
-        
-        const img = mediaContainer.querySelector('img');
-        if (img) {
-          currentScale = Math.min(Math.max(scale, 1), 3);
-          img.style.transform = `scale(${currentScale})`;
-        }
+
+        currentScale = Math.min(Math.max(scale, 1), 3);
+        img.style.transform = `scale(${currentScale})`;
       }
     }, { passive: false });
 
     mediaContainer.addEventListener('touchend', () => {
+      if (!lightbox || !lightbox.classList.contains('is-active')) return;
       const img = mediaContainer.querySelector('img');
-      if (img && currentScale < 1.2) {
-        // Reset if not zoomed enough
+      if (!img) return;
+
+      if (!isPinching) return;
+      isPinching = false;
+
+      // If user didn't really zoom, reset.
+      if (currentScale < 1.15) {
         img.style.transform = '';
+        img.style.transformOrigin = '';
         currentScale = 1;
+      } else {
+        // Consider this a zoomed state; disable class-based zoom to avoid conflicts.
+        isZoomed = false;
+        img.classList.remove('is-zoomed');
       }
     });
   }
