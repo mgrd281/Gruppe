@@ -293,23 +293,6 @@
   font-weight: 450;
 }
 
-.bt-workshop-field__hint--low {
-  color: #B42318;
-  font-weight: 600;
-}
-
-.bt-workshop-field__hint--low::before {
-  content: '';
-  display: inline-block;
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 999px;
-  background: currentColor;
-  margin-right: 0.6rem;
-  vertical-align: middle;
-  transform: translateY(-0.05rem);
-}
-
 .bt-workshop-stepper__input {
   flex: 1;
   min-width: 0;
