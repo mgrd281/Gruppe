@@ -1,0 +1,62 @@
+{% comment %}
+  Editorial product gallery for Workshop template.
+  Hero image + 2-column grid layout (AboutYou-style).
+{% endcomment %}
+
+{%- liquid
+  assign first_media = product.featured_media
+  assign remaining_media = product.media | where: 'id', first_media.id | last
+-%}
+
+<div class="workshop-gallery" data-workshop-gallery>
+  
+  {%- if product.media.size > 0 -%}
+    
+    <!-- Hero Image -->
+    <div class="workshop-gallery__hero">
+      {%- if first_media -%}
+        <div class="workshop-gallery__hero-image">
+          {{
+            first_media
+            | image_url: width: 1400
+            | image_tag:
+              loading: 'eager',
+              sizes: '(min-width: 990px) 55vw, 100vw',
+              widths: '550, 720, 990, 1100, 1400',
+              alt: first_media.alt | default: product.title | escape
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+    
+    <!-- Grid (remaining images, 2-column) -->
+    {%- if product.media.size > 1 -%}
+      <div class="workshop-gallery__grid">
+        {%- for media in product.media offset: 1 -%}
+          <div class="workshop-gallery__grid-item">
+            {{
+              media
+              | image_url: width: 800
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(min-width: 990px) calc((55vw - 20px) / 2), 100vw',
+                widths: '400, 550, 720, 800',
+                alt: media.alt | default: product.title | escape
+            }}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    
+  {%- else -%}
+    
+    <!-- Placeholder if no images -->
+    <div class="workshop-gallery__hero">
+      <div class="workshop-gallery__hero-image workshop-gallery__placeholder">
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    </div>
+    
+  {%- endif -%}
+  
+</div>
