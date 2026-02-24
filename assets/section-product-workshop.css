@@ -476,6 +476,7 @@
   overflow: hidden;
   border-radius: 12px;
   background: rgba(var(--color-foreground), 0.03);
+  cursor: pointer;
 }
 
 .workshop-gallery__hero-media img,
@@ -484,12 +485,87 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 400ms ease;
+  transition: transform 200ms ease;
 }
 
-.workshop-gallery__hero-media:hover img,
+/* Premium hover zoom (1.08-1.12 scale) */
+.workshop-gallery__hero-media:hover img.workshop-gallery__zoom-img,
+.workshop-gallery__zoomable:hover .workshop-gallery__zoom-img {
+  transform: scale(1.1);
+}
+
 .workshop-gallery__hero-media:hover video {
   transform: scale(1.02);
+}
+
+/* Zoom Icon - Premium Design */
+.workshop-gallery__zoom-icon {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  color: #1f1f1f;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 180ms ease, transform 180ms ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.workshop-gallery__zoom-icon svg {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.workshop-gallery__zoom-text {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+/* Show zoom icon on hover (desktop) */
+@media (hover: hover) {
+  .workshop-gallery__hero-media:hover .workshop-gallery__zoom-icon,
+  .workshop-gallery__zoomable:hover .workshop-gallery__zoom-icon {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile: always show zoom icon on images */
+@media (hover: none) {
+  .workshop-gallery__zoom-icon {
+    opacity: 1;
+    transform: translateY(0);
+    padding: 6px 8px;
+  }
+  
+  .workshop-gallery__zoom-icon--grid {
+    padding: 6px;
+  }
+  
+  .workshop-gallery__zoom-icon--grid .workshop-gallery__zoom-text {
+    display: none;
+  }
+}
+
+/* Grid zoom icon smaller */
+.workshop-gallery__zoom-icon--grid {
+  padding: 6px;
+}
+
+/* Focus states for accessibility */
+.workshop-gallery__zoomable:focus-visible {
+  outline: 2px solid rgba(var(--color-foreground), 0.4);
+  outline-offset: 2px;
 }
 
 /* Video wrapper styles */
@@ -616,5 +692,213 @@
 
   .workshop-gallery__grid {
     gap: 2rem;
+  }
+}
+
+/* ============================================
+   Premium Lightbox / Fullscreen Gallery
+   ============================================ */
+
+.workshop-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 250ms ease, visibility 250ms ease;
+}
+
+.workshop-lightbox.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.workshop-lightbox__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.workshop-lightbox__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+  z-index: 10;
+}
+
+.workshop-lightbox__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.workshop-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+  z-index: 10;
+}
+
+.workshop-lightbox__nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.workshop-lightbox__nav--prev {
+  left: 20px;
+}
+
+.workshop-lightbox__nav--next {
+  right: 20px;
+}
+
+.workshop-lightbox__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.workshop-lightbox__content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 80px 60px;
+}
+
+.workshop-lightbox__media-container {
+  position: relative;
+  max-width: 100%;
+  max-height: calc(100% - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 300ms ease, opacity 300ms ease;
+}
+
+.workshop-lightbox.is-active .workshop-lightbox__media-container {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.workshop-lightbox__media-container img,
+.workshop-lightbox__media-container video {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 4px;
+  cursor: zoom-in;
+  transition: transform 200ms ease;
+}
+
+.workshop-lightbox__media-container img.is-zoomed {
+  cursor: zoom-out;
+  transform: scale(1.5);
+}
+
+.workshop-lightbox__counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+}
+
+/* Mobile Lightbox Adjustments */
+@media screen and (max-width: 749px) {
+  .workshop-lightbox__close {
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .workshop-lightbox__nav {
+    width: 44px;
+    height: 44px;
+  }
+
+  .workshop-lightbox__nav--prev {
+    left: 12px;
+  }
+
+  .workshop-lightbox__nav--next {
+    right: 12px;
+  }
+
+  .workshop-lightbox__content {
+    padding: 60px 50px 50px;
+  }
+
+  .workshop-lightbox__media-container img,
+  .workshop-lightbox__media-container video {
+    max-height: 70vh;
+  }
+
+  .workshop-lightbox__counter {
+    bottom: 12px;
+  }
+}
+
+/* Hide navigation on mobile with single image */
+.workshop-lightbox[data-total="1"] .workshop-lightbox__nav {
+  display: none;
+}
+
+.workshop-lightbox[data-total="1"] .workshop-lightbox__counter {
+  display: none;
+}
+
+/* Prevent body scroll when lightbox open */
+body.workshop-lightbox-open {
+  overflow: hidden;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .workshop-lightbox,
+  .workshop-lightbox__media-container,
+  .workshop-lightbox__close,
+  .workshop-lightbox__nav,
+  .workshop-gallery__hero-media img,
+  .workshop-gallery__zoomable .workshop-gallery__zoom-img {
+    transition: none;
   }
 }
