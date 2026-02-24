@@ -36,7 +36,7 @@
                   loading: 'eager',
                   sizes: '(min-width: 990px) 55vw, 100vw',
                   widths: '550, 720, 990, 1100, 1400',
-                  alt: first_media.alt | default: product.title | escape,
+                  alt: first_media.alt | default: product.title,
                   class: 'workshop-gallery__zoom-img'
               }}
               
@@ -93,7 +93,7 @@
                     loading: 'lazy',
                     sizes: '(min-width: 990px) calc((55vw - 20px) / 2), 100vw',
                     widths: '400, 550, 720, 800',
-                    alt: media.alt | default: product.title | escape,
+                    alt: media.alt | default: product.title,
                     class: 'workshop-gallery__zoom-img'
                 }}
                 
