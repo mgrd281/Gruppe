@@ -65,7 +65,9 @@
               
               {%- when 'title' -%}
                 <div class="product__title product-workshop__title" {{ block.shopify_attributes }}>
-                  <h1>{{ product.title | escape }}<span class="product-workshop__title-date"> – 08.03 · 12:00 Uhr</span></h1>
+                  {%- assign workshop_date = product.metafields.custom.workshop_date | default: '08.03' -%}
+                  {%- assign workshop_time = product.metafields.custom.workshop_time | default: '12:00' -%}
+                  <h1>{{ product.title | escape }}<span class="product-workshop__title-date"> – {{ workshop_date }} · {{ workshop_time }} Uhr</span></h1>
                 </div>
               
               {%- when 'price' -%}
