@@ -231,9 +231,9 @@
                     <option value="{{ tag }}">Sa. {{ tag_date }}, {{ tag_time }} Uhr</option>
                   {%- endif -%}
                 {%- endfor -%}
-                {%- if product.tags == empty or product.tags contains 'um' == false -%}
+                {%- unless product.tags contains 'um' -%}
                   <option value="flexibel">Flexibler Termin</option>
-                {%- endif -%}
+                {%- endunless -%}
               </select>
               <svg class="workshop-1-booking-card__chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
