@@ -857,6 +857,7 @@
   padding: 8px 16px;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 20px;
+  pointer-events: none;
 }
 
 /* Mobile Lightbox Adjustments */

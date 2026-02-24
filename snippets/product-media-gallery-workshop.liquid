@@ -22,6 +22,9 @@
           data-media-type="{{ first_media.media_type }}"
           data-media-id="{{ first_media.id }}"
           data-media-index="0"
+          {% if first_media.media_type == 'image' %}
+            data-image-url="{{ first_media | image_url: width: 2000 }}"
+          {% endif %}
           tabindex="0"
           role="button"
           aria-label="Open fullscreen gallery"
@@ -79,6 +82,9 @@
             data-media-type="{{ media.media_type }}"
             data-media-id="{{ media.id }}"
             data-media-index="{{ media_index }}"
+            {% if media.media_type == 'image' %}
+              data-image-url="{{ media | image_url: width: 2000 }}"
+            {% endif %}
             tabindex="0"
             role="button"
             aria-label="Open fullscreen gallery"
