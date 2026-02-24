@@ -18,7 +18,7 @@
     <div class="workshop-gallery__hero">
       {%- if first_media -%}
         <div 
-          class="workshop-gallery__hero-media workshop-gallery__zoomable" 
+          class="workshop-gallery__hero-media workshop-gallery__zoomable{% if first_media.media_type == 'image' %} workshop-gallery__zoomable--image{% endif %}" 
           data-media-type="{{ first_media.media_type }}"
           data-media-id="{{ first_media.id }}"
           data-media-index="0"

@@ -72,6 +72,9 @@
 
     // Pinch zoom for images
     setupPinchZoom();
+
+    // Cursor-follow hover zoom (desktop only)
+    setupCursorZoom(zoomables);
   }
 
   /**
@@ -429,6 +432,38 @@
     const dx = touch1.screenX - touch2.screenX;
     const dy = touch1.screenY - touch2.screenY;
     return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  /**
+   * Setup cursor-follow hover zoom (desktop only)
+   */
+  function setupCursorZoom(zoomables) {
+    // Only enable on devices with fine pointer (desktop)
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    zoomables.forEach(el => {
+      // Only apply to image-type zoomables
+      if (!el.classList.contains('workshop-gallery__zoomable--image')) return;
+      
+      const img = el.querySelector('.workshop-gallery__zoom-img');
+      if (!img) return;
+
+      el.addEventListener('mouseenter', () => {
+        el.classList.add('is-cursor-zoom');
+      });
+
+      el.addEventListener('mouseleave', () => {
+        el.classList.remove('is-cursor-zoom');
+        img.style.transformOrigin = '';
+      });
+
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        img.style.transformOrigin = `${x}% ${y}%`;
+      });
+    });
   }
 
   // Initialize when DOM is ready
