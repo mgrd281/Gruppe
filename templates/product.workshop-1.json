@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "header": {
+      "type": "workshop-header",
+      "settings": {}
+    },
+    "gallery": {
+      "type": "workshop-gallery",
+      "settings": {}
+    },
+    "info_bar": {
+      "type": "workshop-info-bar",
+      "settings": {}
+    },
+    "main_content": {
+      "type": "workshop-content",
+      "settings": {}
+    }
+  },
+  "order": ["header", "gallery", "info_bar", "main_content"]
+}

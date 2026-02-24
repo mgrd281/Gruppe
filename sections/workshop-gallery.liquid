@@ -1,0 +1,233 @@
+{{-
+  Workshop Gallery Section
+  Large main image left, 2x2 grid right with overlay buttons
+-}}
+
+{%- liquid
+  assign media_count = product.media.size
+  assign first_media = product.featured_media
+-%}
+
+<div class="workshop-1-gallery page-width">
+  <div class="workshop-1-gallery__container">
+    
+    {%- if media_count > 0 -%}
+      <!-- Main Image (Left) -->
+      <div class="workshop-1-gallery__main">
+        <div class="workshop-1-gallery__media-wrapper" data-media-id="{{ first_media.id }}">
+          {%- if first_media.media_type == 'image' -%}
+            <img 
+              src="{{ first_media | image_url: width: 1200 }}"
+              srcset="{{ first_media | image_url: width: 600 }} 600w,
+                      {{ first_media | image_url: width: 900 }} 900w,
+                      {{ first_media | image_url: width: 1200 }} 1200w"
+              sizes="(min-width: 990px) 60vw, 100vw"
+              alt="{{ first_media.alt | escape }}"
+              loading="eager"
+              class="workshop-1-gallery__image"
+            >
+          {%- else -%}
+            {{ first_media | media_tag }}
+          {%- endif -%}
+          
+          <!-- Overlay Buttons -->
+          <div class="workshop-1-gallery__overlay-buttons">
+            <button class="workshop-1-gallery__btn" type="button" data-open-lightbox>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              Alle Fotos
+            </button>
+            <button class="workshop-1-gallery__btn" type="button" data-share>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              Teilen
+            </button>
+            <button class="workshop-1-gallery__btn workshop-1-gallery__btn--wishlist" type="button" data-wishlist aria-label="Merken">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+              Merken
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Grid Images (Right) -->
+      {%- if media_count > 1 -%}
+        <div class="workshop-1-gallery__grid">
+          {%- for media in product.media offset: 1 limit: 4 -%}
+            <div class="workshop-1-gallery__grid-item" data-media-id="{{ media.id }}">
+              {%- if media.media_type == 'image' -%}
+                <img 
+                  src="{{ media | image_url: width: 400 }}"
+                  srcset="{{ media | image_url: width: 200 }} 200w,
+                          {{ media | image_url: width: 400 }} 400w"
+                  sizes="(min-width: 990px) 20vw, 50vw"
+                  alt="{{ media.alt | escape }}"
+                  loading="lazy"
+                  class="workshop-1-gallery__grid-image"
+                >
+              {%- else -%}
+                {{ media | media_tag }}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+      
+    {%- else -%}
+      <!-- Placeholder -->
+      <div class="workshop-1-gallery__placeholder">
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    {%- endif -%}
+    
+  </div>
+</div>
+
+<style>
+.workshop-1-gallery {
+  padding-bottom: 1.5rem;
+}
+
+.workshop-1-gallery__container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.workshop-1-gallery__main {
+  position: relative;
+}
+
+.workshop-1-gallery__media-wrapper {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.05);
+}
+
+.workshop-1-gallery__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.workshop-1-gallery__overlay-buttons {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.workshop-1-gallery__btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  backdrop-filter: blur(8px);
+}
+
+.workshop-1-gallery__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.workshop-1-gallery__btn svg {
+  flex-shrink: 0;
+}
+
+.workshop-1-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.workshop-1-gallery__grid-item {
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.05);
+  cursor: pointer;
+  transition: opacity 200ms ease;
+}
+
+.workshop-1-gallery__grid-item:hover {
+  opacity: 0.9;
+}
+
+.workshop-1-gallery__grid-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.workshop-1-gallery__placeholder {
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background: rgba(var(--color-foreground), 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workshop-1-gallery__placeholder svg {
+  width: 40%;
+  height: 40%;
+  opacity: 0.3;
+}
+
+/* Desktop: Side by side layout */
+@media screen and (min-width: 990px) {
+  .workshop-1-gallery__container {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 1rem;
+  }
+  
+  .workshop-1-gallery__media-wrapper {
+    aspect-ratio: 4 / 3;
+  }
+  
+  .workshop-1-gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+  
+  .workshop-1-gallery__grid-item {
+    aspect-ratio: auto;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Workshop Gallery",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Workshop Gallery"
+    }
+  ]
+}
+{% endschema %}

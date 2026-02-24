@@ -1,0 +1,113 @@
+{{-
+  Workshop Header Section
+  Pixel-perfect replication of Konfetti reference design
+-}}
+
+{%- liquid
+  assign title = product.title | escape
+  assign vendor = product.vendor | escape
+  assign rating = product.metafields.reviews.rating | default: 5.0
+  assign review_count = product.metafields.reviews.review_count | default: 0
+-%}
+
+<div class="workshop-1-header page-width">
+  <div class="workshop-1-header__content">
+    <h1 class="workshop-1-header__title">{{ title }}</h1>
+    
+    {%- if product.description != blank -%}
+      <p class="workshop-1-header__subtitle">{{ product.description | strip_html | truncatewords: 30 }}</p>
+    {%- endif -%}
+    
+    <div class="workshop-1-header__meta">
+      {%- if vendor != blank -%}
+        <span class="workshop-1-header__vendor">{{ vendor }}</span>
+      {%- endif -%}
+      
+      <div class="workshop-1-header__rating">
+        <svg class="workshop-1-header__star" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span class="workshop-1-header__rating-value">{{ rating }}</span>
+        <span class="workshop-1-header__rating-text">Partnerbewertung</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.workshop-1-header {
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+.workshop-1-header__content {
+  max-width: 900px;
+}
+
+.workshop-1-header__title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: rgb(var(--color-foreground));
+  margin: 0 0 0.75rem;
+}
+
+.workshop-1-header__subtitle {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: rgba(var(--color-foreground), 0.7);
+  margin: 0 0 1rem;
+}
+
+.workshop-1-header__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.workshop-1-header__vendor {
+  font-size: 0.875rem;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.workshop-1-header__rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.workshop-1-header__star {
+  color: #ffc107;
+}
+
+.workshop-1-header__rating-value {
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.workshop-1-header__rating-text {
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+@media screen and (min-width: 750px) {
+  .workshop-1-header__title {
+    font-size: 2.5rem;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Workshop Header",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Workshop Header"
+    }
+  ]
+}
+{% endschema %}
