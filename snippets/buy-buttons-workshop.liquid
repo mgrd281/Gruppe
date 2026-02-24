@@ -150,7 +150,7 @@
                       </svg>
                     </button>
                   </div>
-                  {%- if available_seats <= 6 -%}
+                  {%- if available_seats > 0 -%}
                     <span class="bt-workshop-field__hint{% if available_seats <= 3 %} bt-workshop-field__hint--low{% endif %}">Noch {{ available_seats }} {{ available_seats | pluralize: 'Platz', 'Plätze' }} verfügbar</span>
                   {%- endif -%}
                 </div>
