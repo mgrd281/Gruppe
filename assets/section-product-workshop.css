@@ -1,3 +1,58 @@
+/* Fixed Date Display */
+.bt-workshop-fixed-date {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.2rem 1.4rem;
+  background: rgba(var(--color-foreground), 0.03);
+  border: 1px solid rgba(var(--color-foreground), 0.12);
+  border-radius: calc(var(--workshop-radius) - 4px);
+}
+
+.bt-workshop-fixed-date__main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.8rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  line-height: 1.4;
+}
+
+.bt-workshop-fixed-date__date {
+  font-weight: 600;
+}
+
+.bt-workshop-fixed-date__separator {
+  color: rgba(var(--color-foreground), 0.4);
+  font-weight: 400;
+}
+
+.bt-workshop-fixed-date__time {
+  color: rgba(var(--color-foreground), 0.85);
+}
+
+.bt-workshop-fixed-date__subtext {
+  font-size: 1.3rem;
+  color: rgba(var(--color-foreground), 0.5);
+  font-weight: 400;
+}
+
+@media screen and (max-width: 749px) {
+  .bt-workshop-fixed-date {
+    padding: 1rem 1.2rem;
+  }
+  
+  .bt-workshop-fixed-date__main {
+    font-size: 1.4rem;
+  }
+  
+  .bt-workshop-fixed-date__subtext {
+    font-size: 1.2rem;
+  }
+}
+
 /* ============================================
    Product Workshop Template - Premium Styles
    Modern booking interface for workshops

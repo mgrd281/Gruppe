@@ -51,14 +51,14 @@
           
           <div class="bt-workshop-booking__header">
             <h3 class="bt-workshop-booking__title">Workshop buchen</h3>
-            <p class="bt-workshop-booking__subtitle">Wähle Termin, Uhrzeit und Personenanzahl</p>
+            <p class="bt-workshop-booking__subtitle">Wähle die Personenanzahl</p>
           </div>
 
           <div class="bt-workshop-booking__fields">
             
-            <!-- Date Field -->
-            <div class="bt-workshop-field">
-              <label class="bt-workshop-field__label" for="WorkshopDate-{{ section_id }}">
+            <!-- Fixed Date Display (replacing date/time selectors) -->
+            <div class="bt-workshop-field bt-workshop-field--full">
+              <label class="bt-workshop-field__label">
                 <span class="bt-workshop-field__icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -67,51 +67,19 @@
                     <line x1="3" y1="10" x2="21" y2="10"></line>
                   </svg>
                 </span>
-                Datum
+                Termin
               </label>
-              <div class="bt-workshop-field__input-wrap">
-                <input
-                  id="WorkshopDate-{{ section_id }}"
-                  class="bt-workshop-field__input bt-workshop-field__input--date"
-                  type="date"
-                  name="properties[Workshop-Datum]"
-                  required
-                  data-booking-required
-                  data-booking-field="date"
-                >
+              <div class="bt-workshop-fixed-date">
+                <div class="bt-workshop-fixed-date__main">
+                  <span class="bt-workshop-fixed-date__date">Sonntag, 08. März 2026</span>
+                  <span class="bt-workshop-fixed-date__separator">·</span>
+                  <span class="bt-workshop-fixed-date__time">12:00 Uhr</span>
+                </div>
+                <span class="bt-workshop-fixed-date__subtext">Einmaliger Workshop – feste Startzeit</span>
               </div>
-              <span class="bt-workshop-field__error" data-booking-error-for="date" hidden>Bitte Datum wählen</span>
-            </div>
-
-            <!-- Time Field -->
-            <div class="bt-workshop-field">
-              <label class="bt-workshop-field__label" for="WorkshopTime-{{ section_id }}">
-                <span class="bt-workshop-field__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                </span>
-                Uhrzeit
-              </label>
-              <div class="bt-workshop-field__input-wrap">
-                <select
-                  id="WorkshopTime-{{ section_id }}"
-                  class="bt-workshop-field__input bt-workshop-field__input--select"
-                  name="properties[Uhrzeit]"
-                  required
-                  data-booking-required
-                  data-booking-field="time"
-                >
-                  <option value="" disabled selected>Zeit wählen</option>
-                  <option value="09:00">09:00</option>
-                  <option value="11:00">11:00</option>
-                  <option value="14:00">14:00</option>
-                  <option value="16:00">16:00</option>
-                  <option value="18:00">18:00</option>
-                </select>
-              </div>
-              <span class="bt-workshop-field__error" data-booking-error-for="time" hidden>Bitte Uhrzeit wählen</span>
+              <!-- Hidden inputs for cart properties -->
+              <input type="hidden" name="properties[Workshop-Datum]" value="08.03.2026">
+              <input type="hidden" name="properties[Uhrzeit]" value="12:00">
             </div>
 
             <!-- Persons Field with Stepper -->
