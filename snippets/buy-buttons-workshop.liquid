@@ -18,13 +18,7 @@
 
     {%- liquid
       assign variant = product.selected_or_first_available_variant
-      assign inventory_qty = variant.inventory_quantity | default: 0
-      assign max_seats = inventory_qty | at_most: 6
-      if inventory_qty <= 0
-        assign available_seats = 0
-      else
-        assign available_seats = max_seats
-      endif
+      assign available_seats = variant.inventory_quantity | default: 0
     -%}
     <product-form
       class="product-form product-workshop-form"
@@ -32,7 +26,7 @@
       data-section-id="{{ section_id }}"
       data-workshop-booking="true"
       data-max-seats="{{ available_seats }}"
-      data-inventory-quantity="{{ inventory_qty }}"
+      data-inventory-quantity="{{ available_seats }}"
     >
       <div class="product-form__error-message-wrapper product-workshop__error" role="alert" hidden>
         <span class="svg-wrapper">
