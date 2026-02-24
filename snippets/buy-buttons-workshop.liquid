@@ -216,6 +216,252 @@
         </div>
       {%- endform -%}
     </product-form>
+    
+    <!-- Teamevent Anfragen Box -->
+    <div class="product-workshop-inquiry">
+      <div class="product-workshop-inquiry__box">
+        <h3 class="product-workshop-inquiry__title">Teamevent anfragen</h3>
+        <p class="product-workshop-inquiry__text">Individuelle Termine anfragen. Auch für Firmenevents oder private Gruppen. Unverbindliches Angebot erhalten.</p>
+        <button type="button" class="product-workshop-inquiry__btn" onclick="document.getElementById('workshop-inquiry-modal').showModal()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          </svg>
+          Event anfragen
+        </button>
+      </div>
+    </div>
+    
+    <!-- Inquiry Modal Form -->
+    <dialog id="workshop-inquiry-modal" class="workshop-inquiry-modal">
+      <div class="workshop-inquiry-modal__content">
+        <button class="workshop-inquiry-modal__close" onclick="document.getElementById('workshop-inquiry-modal').close()" aria-label="Schließen">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <h2 class="workshop-inquiry-modal__title">Jetzt unverbindlich anfragen!</h2>
+        <form class="workshop-inquiry-form" action="/contact" method="post">
+          <input type="hidden" name="form_type" value="contact">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="contact[subject]" value="Workshop Anfrage: {{ product.title | escape }}">
+          <div class="workshop-inquiry-form__row">
+            <div class="workshop-inquiry-form__field">
+              <label class="workshop-inquiry-form__label" for="inquiry-firstname">Vorname *</label>
+              <input type="text" id="inquiry-firstname" name="contact[first_name]" class="workshop-inquiry-form__input" placeholder="Erika" required>
+            </div>
+            <div class="workshop-inquiry-form__field">
+              <label class="workshop-inquiry-form__label" for="inquiry-lastname">Nachname *</label>
+              <input type="text" id="inquiry-lastname" name="contact[last_name]" class="workshop-inquiry-form__input" placeholder="Mustermann" required>
+            </div>
+          </div>
+          <div class="workshop-inquiry-form__field">
+            <label class="workshop-inquiry-form__label" for="inquiry-email">E-Mail *</label>
+            <input type="email" id="inquiry-email" name="contact[email]" class="workshop-inquiry-form__input" placeholder="erika@mustermann.de" required>
+          </div>
+          <div class="workshop-inquiry-form__field">
+            <label class="workshop-inquiry-form__label" for="inquiry-participants">Anzahl Teilnehmer *</label>
+            <input type="number" id="inquiry-participants" name="contact[participants]" class="workshop-inquiry-form__input" placeholder="Personenanzahl" min="1" required>
+          </div>
+          <div class="workshop-inquiry-form__field">
+            <label class="workshop-inquiry-form__label" for="inquiry-phone">Telefon für Rückfragen *</label>
+            <input type="tel" id="inquiry-phone" name="contact[phone]" class="workshop-inquiry-form__input" placeholder="+49 123 456 789" required>
+            <span class="workshop-inquiry-form__hint">Telefonisch lässt sich Dein Event erfahrungsgemäß am schnellsten absprechen!</span>
+          </div>
+          <div class="workshop-inquiry-form__field">
+            <label class="workshop-inquiry-form__label" for="inquiry-company">Unternehmensname</label>
+            <input type="text" id="inquiry-company" name="contact[company]" class="workshop-inquiry-form__input" placeholder="">
+            <span class="workshop-inquiry-form__hint">Natürlich nur, wenn es sich um eine Firmenanfrage dreht.</span>
+          </div>
+          <div class="workshop-inquiry-form__field">
+            <label class="workshop-inquiry-form__label" for="inquiry-city">Stadt</label>
+            <input type="text" id="inquiry-city" name="contact[city]" class="workshop-inquiry-form__input" placeholder="">
+            <span class="workshop-inquiry-form__hint">Wo soll es stattfinden?</span>
+          </div>
+          <div class="workshop-inquiry-form__field">
+            <label class="workshop-inquiry-form__label" for="inquiry-date">Termin auswählen</label>
+            <input type="text" id="inquiry-date" name="contact[preferred_date]" class="workshop-inquiry-form__input" placeholder="Termin auswählen">
+            <span class="workshop-inquiry-form__hint">Sofern Du mehrere mögliche Daten hast, gib einfach das an, welches Euch am liebsten ist.</span>
+          </div>
+          <div class="workshop-inquiry-form__checkbox">
+            <input type="checkbox" id="inquiry-consent" name="contact[consent]" required>
+            <label for="inquiry-consent">Mit klicken auf "Abschicken", stimmst Du zu, dass wir Dich kontaktieren.</label>
+          </div>
+          <button type="submit" class="workshop-inquiry-form__submit">Abschicken</button>
+        </form>
+      </div>
+    </dialog>
+    
+    <style>
+      .product-workshop-inquiry {
+        margin-top: 1.5rem;
+        padding: 1.25rem;
+        border: 1px solid rgba(var(--color-foreground), 0.1);
+        border-radius: 12px;
+        background: transparent;
+      }
+      .product-workshop-inquiry__title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem;
+      }
+      .product-workshop-inquiry__text {
+        font-size: 0.875rem;
+        color: rgba(var(--color-foreground), 0.7);
+        margin: 0 0 1rem;
+        line-height: 1.5;
+      }
+      .product-workshop-inquiry__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.75rem;
+        background: transparent;
+        border: 1px solid rgb(var(--color-foreground));
+        color: rgb(var(--color-foreground));
+        border-radius: 8px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 150ms ease;
+      }
+      .product-workshop-inquiry__btn:hover {
+        background: rgba(var(--color-foreground), 0.05);
+      }
+      .workshop-inquiry-modal {
+        padding: 0;
+        border: none;
+        border-radius: 16px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 90vh;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+      .workshop-inquiry-modal::backdrop {
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+      }
+      .workshop-inquiry-modal__content {
+        padding: 2rem;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+      }
+      .workshop-inquiry-modal__close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: rgba(var(--color-foreground), 0.6);
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background 150ms ease, color 150ms ease;
+      }
+      .workshop-inquiry-modal__close:hover {
+        background: rgba(var(--color-foreground), 0.05);
+        color: rgb(var(--color-foreground));
+      }
+      .workshop-inquiry-modal__title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: rgb(var(--color-foreground));
+        margin: 0 0 1.5rem;
+        padding-right: 3rem;
+      }
+      .workshop-inquiry-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .workshop-inquiry-form__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .workshop-inquiry-form__field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .workshop-inquiry-form__label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: rgb(var(--color-foreground));
+      }
+      .workshop-inquiry-form__input {
+        height: 44px;
+        padding: 0 12px;
+        border: 1px solid rgba(var(--color-foreground), 0.15);
+        border-radius: 8px;
+        font-size: 0.9375rem;
+        color: rgb(var(--color-foreground));
+        background: #fff;
+        transition: border-color 150ms ease;
+      }
+      .workshop-inquiry-form__input:focus {
+        outline: none;
+        border-color: rgb(30, 60, 50);
+      }
+      .workshop-inquiry-form__hint {
+        font-size: 0.75rem;
+        color: rgba(var(--color-foreground), 0.6);
+        margin-top: 0.25rem;
+      }
+      .workshop-inquiry-form__checkbox {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      .workshop-inquiry-form__checkbox input {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+        accent-color: rgb(30, 60, 50);
+      }
+      .workshop-inquiry-form__checkbox label {
+        font-size: 0.875rem;
+        color: rgba(var(--color-foreground), 0.8);
+        line-height: 1.4;
+      }
+      .workshop-inquiry-form__submit {
+        margin-top: 0.5rem;
+        padding: 0.875rem 1.5rem;
+        background: rgb(30, 60, 50);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 150ms ease;
+      }
+      .workshop-inquiry-form__submit:hover {
+        background: rgb(40, 80, 70);
+      }
+      @media screen and (max-width: 749px) {
+        .workshop-inquiry-modal__content {
+          padding: 1.5rem;
+        }
+        .workshop-inquiry-form__row {
+          grid-template-columns: 1fr;
+        }
+        .product-workshop-inquiry {
+          margin-top: 1rem;
+        }
+      }
+    </style>
   {%- else -%}
     <div class="product-form">
       <button type="submit" class="product-form__submit button button--full-width button--primary" disabled>
