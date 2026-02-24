@@ -295,9 +295,9 @@
 .bt-workshop-field__hint {
   display: block;
   font-size: 1.2rem;
-  color: rgba(var(--color-foreground), 0.6);
+  color: rgb(200, 55, 55);
   margin-top: 0.4rem;
-  font-weight: 450;
+  font-weight: 500;
 }
 
 .bt-workshop-stepper__input {
